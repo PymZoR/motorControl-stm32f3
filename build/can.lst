@@ -1,0 +1,99 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccmvfrVa.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"can.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	can,4,4
+  21              		.section	.text.can_init,"ax",%progbits
+  22              		.align	2
+  23              		.global	can_init
+  24              		.thumb
+  25              		.thumb_func
+  27              	can_init:
+  28              	.LFB123:
+  29              		.file 1 "Src/peripherals/can.c"
+   1:Src/peripherals/can.c **** #include "peripherals/can.h"
+   2:Src/peripherals/can.c **** 
+   3:Src/peripherals/can.c **** void can_init(CAN_HandleTypeDef* hcan_) {
+  30              		.loc 1 3 0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 1, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35 0000 80B4     		push	{r7}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 4
+  38              		.cfi_offset 7, -4
+  39 0002 83B0     		sub	sp, sp, #12
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 16
+  42 0004 00AF     		add	r7, sp, #0
+  43              	.LCFI2:
+  44              		.cfi_def_cfa_register 7
+  45 0006 7860     		str	r0, [r7, #4]
+   4:Src/peripherals/can.c ****     can = hcan_;
+  46              		.loc 1 4 0
+  47 0008 034A     		ldr	r2, .L2
+  48 000a 7B68     		ldr	r3, [r7, #4]
+  49 000c 1360     		str	r3, [r2]
+   5:Src/peripherals/can.c **** }
+  50              		.loc 1 5 0
+  51 000e 0C37     		adds	r7, r7, #12
+  52              	.LCFI3:
+  53              		.cfi_def_cfa_offset 4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccmvfrVa.s 			page 2
+
+
+  54 0010 BD46     		mov	sp, r7
+  55              	.LCFI4:
+  56              		.cfi_def_cfa_register 13
+  57              		@ sp needed
+  58 0012 5DF8047B 		ldr	r7, [sp], #4
+  59              	.LCFI5:
+  60              		.cfi_restore 7
+  61              		.cfi_def_cfa_offset 0
+  62 0016 7047     		bx	lr
+  63              	.L3:
+  64              		.align	2
+  65              	.L2:
+  66 0018 00000000 		.word	can
+  67              		.cfi_endproc
+  68              	.LFE123:
+  70              		.text
+  71              	.Letext0:
+  72              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+  73              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+  74              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+  75              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+  76              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_can.h"
+  77              		.file 7 "Drivers/CMSIS/Include/core_cm4.h"
+  78              		.file 8 "Inc/peripherals/can.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccmvfrVa.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 can.c
+                            *COM*:0000000000000004 can
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccmvfrVa.s:22     .text.can_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccmvfrVa.s:27     .text.can_init:0000000000000000 can_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccmvfrVa.s:66     .text.can_init:0000000000000018 $d
+                     .debug_frame:0000000000000010 $d
+
+NO UNDEFINED SYMBOLS

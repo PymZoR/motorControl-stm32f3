@@ -1,0 +1,276 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"control.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	tim2,4,4
+  21              		.comm	tim3,4,4
+  22              		.comm	previousLeftTicks,2,2
+  23              		.comm	previousRightTicks,2,2
+  24              		.comm	leftVel,2,2
+  25              		.comm	rightVel,2,2
+  26              		.comm	leftPos,2,2
+  27              		.comm	rightPos,2,2
+  28              		.comm	tim16,4,4
+  29              		.comm	tim17,4,4
+  30              		.comm	lastIter,4,4
+  31              		.section	.rodata
+  32              		.align	2
+  33              	.LC0:
+  34 0000 25693A25 		.ascii	"%i:%i\012\000"
+  34      690A00
+  35              		.section	.text.control_iter,"ax",%progbits
+  36              		.align	2
+  37              		.global	control_iter
+  38              		.thumb
+  39              		.thumb_func
+  41              	control_iter:
+  42              	.LFB123:
+  43              		.file 1 "Src/motionControl/control.c"
+   1:Src/motionControl/control.c **** #include "motionControl/control.h"
+   2:Src/motionControl/control.c **** 
+   3:Src/motionControl/control.c **** void control_iter() {
+  44              		.loc 1 3 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 8
+  47              		@ frame_needed = 1, uses_anonymous_args = 0
+  48 0000 90B5     		push	{r4, r7, lr}
+  49              	.LCFI0:
+  50              		.cfi_def_cfa_offset 12
+  51              		.cfi_offset 4, -12
+  52              		.cfi_offset 7, -8
+  53              		.cfi_offset 14, -4
+  54 0002 83B0     		sub	sp, sp, #12
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s 			page 2
+
+
+  55              	.LCFI1:
+  56              		.cfi_def_cfa_offset 24
+  57 0004 00AF     		add	r7, sp, #0
+  58              	.LCFI2:
+  59              		.cfi_def_cfa_register 7
+   4:Src/motionControl/control.c ****     if (!controlRunning) {
+  60              		.loc 1 4 0
+  61 0006 204B     		ldr	r3, .L16
+  62 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  63 000a 83F00103 		eor	r3, r3, #1
+  64 000e DBB2     		uxtb	r3, r3
+  65 0010 002B     		cmp	r3, #0
+  66 0012 00D0     		beq	.L2
+   5:Src/motionControl/control.c ****         return;
+  67              		.loc 1 5 0
+  68 0014 35E0     		b	.L1
+  69              	.L2:
+   6:Src/motionControl/control.c ****     }
+   7:Src/motionControl/control.c **** 
+   8:Src/motionControl/control.c ****     unsigned long now = HAL_GetTick();
+  70              		.loc 1 8 0
+  71 0016 FFF7FEFF 		bl	HAL_GetTick
+  72 001a 7860     		str	r0, [r7, #4]
+   9:Src/motionControl/control.c ****     long delta = now - lastIter;
+  73              		.loc 1 9 0
+  74 001c 1B4B     		ldr	r3, .L16+4
+  75 001e 1B68     		ldr	r3, [r3]
+  76 0020 7A68     		ldr	r2, [r7, #4]
+  77 0022 D31A     		subs	r3, r2, r3
+  78 0024 3B60     		str	r3, [r7]
+  10:Src/motionControl/control.c ****     
+  11:Src/motionControl/control.c ****     if (delta >= DT) {
+  79              		.loc 1 11 0
+  80 0026 3B68     		ldr	r3, [r7]
+  81 0028 092B     		cmp	r3, #9
+  82 002a 2ADD     		ble	.L1
+  12:Src/motionControl/control.c ****         lastIter = now;
+  83              		.loc 1 12 0
+  84 002c 174A     		ldr	r2, .L16+4
+  85 002e 7B68     		ldr	r3, [r7, #4]
+  86 0030 1360     		str	r3, [r2]
+  13:Src/motionControl/control.c ****         encoder_update();
+  87              		.loc 1 13 0
+  88 0032 FFF7FEFF 		bl	encoder_update
+  14:Src/motionControl/control.c **** 
+  15:Src/motionControl/control.c ****         // DEBUG
+  16:Src/motionControl/control.c ****         printf("%i:%i\n", encoder_left_getVal(), encoder_right_getVal());
+  89              		.loc 1 16 0
+  90 0036 FFF7FEFF 		bl	encoder_left_getVal
+  91 003a 0346     		mov	r3, r0
+  92 003c 1C46     		mov	r4, r3
+  93 003e FFF7FEFF 		bl	encoder_right_getVal
+  94 0042 0346     		mov	r3, r0
+  95 0044 1248     		ldr	r0, .L16+8
+  96 0046 2146     		mov	r1, r4
+  97 0048 1A46     		mov	r2, r3
+  98 004a FFF7FEFF 		bl	printf
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s 			page 3
+
+
+  17:Src/motionControl/control.c **** 
+  18:Src/motionControl/control.c ****         switch (currentControl) {
+  99              		.loc 1 18 0
+ 100 004e 114B     		ldr	r3, .L16+12
+ 101 0050 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 102 0052 082B     		cmp	r3, #8
+ 103 0054 14D8     		bhi	.L15
+ 104 0056 01A2     		adr	r2, .L6
+ 105 0058 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 106              		.p2align 2
+ 107              	.L6:
+ 108 005c 81000000 		.word	.L15+1
+ 109 0060 81000000 		.word	.L15+1
+ 110 0064 81000000 		.word	.L15+1
+ 111 0068 81000000 		.word	.L15+1
+ 112 006c 81000000 		.word	.L15+1
+ 113 0070 81000000 		.word	.L15+1
+ 114 0074 81000000 		.word	.L15+1
+ 115 0078 81000000 		.word	.L15+1
+ 116 007c 81000000 		.word	.L15+1
+ 117              		.p2align 1
+ 118              	.L15:
+  19:Src/motionControl/control.c ****             case LEFT_VEL: {
+  20:Src/motionControl/control.c **** 
+  21:Src/motionControl/control.c ****                 break;
+  22:Src/motionControl/control.c ****             }
+  23:Src/motionControl/control.c ****         
+  24:Src/motionControl/control.c ****             case LEFT_POS: {
+  25:Src/motionControl/control.c **** 
+  26:Src/motionControl/control.c ****                 break;
+  27:Src/motionControl/control.c ****             }
+  28:Src/motionControl/control.c ****         
+  29:Src/motionControl/control.c ****             case RIGHT_VEL: {
+  30:Src/motionControl/control.c **** 
+  31:Src/motionControl/control.c ****                 break;
+  32:Src/motionControl/control.c ****             }
+  33:Src/motionControl/control.c ****         
+  34:Src/motionControl/control.c ****             case RIGHT_POS: {
+  35:Src/motionControl/control.c **** 
+  36:Src/motionControl/control.c ****                 break;
+  37:Src/motionControl/control.c ****             }
+  38:Src/motionControl/control.c ****         
+  39:Src/motionControl/control.c ****             case BOTH_VEL: {
+  40:Src/motionControl/control.c **** 
+  41:Src/motionControl/control.c ****                 break;
+  42:Src/motionControl/control.c ****             }
+  43:Src/motionControl/control.c ****         
+  44:Src/motionControl/control.c ****             case BOTH_POS: {
+  45:Src/motionControl/control.c **** 
+  46:Src/motionControl/control.c ****                 break;
+  47:Src/motionControl/control.c ****             }
+  48:Src/motionControl/control.c ****         
+  49:Src/motionControl/control.c ****             case DISTANCE: {
+  50:Src/motionControl/control.c **** 
+  51:Src/motionControl/control.c ****                 break;
+  52:Src/motionControl/control.c ****             }
+  53:Src/motionControl/control.c ****         
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s 			page 4
+
+
+  54:Src/motionControl/control.c ****             case ANGLE: {
+  55:Src/motionControl/control.c **** 
+  56:Src/motionControl/control.c ****                 break;
+  57:Src/motionControl/control.c ****             }
+  58:Src/motionControl/control.c ****         
+  59:Src/motionControl/control.c ****             case POLAR: {
+  60:Src/motionControl/control.c **** 
+  61:Src/motionControl/control.c ****                 break;
+  62:Src/motionControl/control.c ****             }
+  63:Src/motionControl/control.c **** 
+  64:Src/motionControl/control.c ****             default: {
+  65:Src/motionControl/control.c ****                 return;
+ 119              		.loc 1 65 0
+ 120 0080 00BF     		nop
+ 121              	.L1:
+  66:Src/motionControl/control.c ****             }
+  67:Src/motionControl/control.c ****         }
+  68:Src/motionControl/control.c ****     }
+  69:Src/motionControl/control.c **** }
+ 122              		.loc 1 69 0
+ 123 0082 0C37     		adds	r7, r7, #12
+ 124              	.LCFI3:
+ 125              		.cfi_def_cfa_offset 12
+ 126 0084 BD46     		mov	sp, r7
+ 127              	.LCFI4:
+ 128              		.cfi_def_cfa_register 13
+ 129              		@ sp needed
+ 130 0086 90BD     		pop	{r4, r7, pc}
+ 131              	.L17:
+ 132              		.align	2
+ 133              	.L16:
+ 134 0088 00000000 		.word	controlRunning
+ 135 008c 00000000 		.word	lastIter
+ 136 0090 00000000 		.word	.LC0
+ 137 0094 00000000 		.word	currentControl
+ 138              		.cfi_endproc
+ 139              	.LFE123:
+ 141              		.global	controlRunning
+ 142              		.section	.bss.controlRunning,"aw",%nobits
+ 145              	controlRunning:
+ 146 0000 00       		.space	1
+ 147              		.global	currentControl
+ 148              		.section	.data.currentControl,"aw",%progbits
+ 151              	currentControl:
+ 152 0000 05       		.byte	5
+ 153              		.text
+ 154              	.Letext0:
+ 155              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 156              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 157              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 158              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 159              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 160              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 161              		.file 8 "Inc/motionControl/control.h"
+ 162              		.file 9 "Drivers/CMSIS/Include/core_cm4.h"
+ 163              		.file 10 "Inc/peripherals/encoders.h"
+ 164              		.file 11 "Inc/peripherals/pwm.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s 			page 5
+
+
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 control.c
+                            *COM*:0000000000000004 tim2
+                            *COM*:0000000000000004 tim3
+                            *COM*:0000000000000002 previousLeftTicks
+                            *COM*:0000000000000002 previousRightTicks
+                            *COM*:0000000000000002 leftVel
+                            *COM*:0000000000000002 rightVel
+                            *COM*:0000000000000002 leftPos
+                            *COM*:0000000000000002 rightPos
+                            *COM*:0000000000000004 tim16
+                            *COM*:0000000000000004 tim17
+                            *COM*:0000000000000004 lastIter
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:32     .rodata:0000000000000000 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:36     .text.control_iter:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:41     .text.control_iter:0000000000000000 control_iter
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:108    .text.control_iter:000000000000005c $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:117    .text.control_iter:0000000000000080 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:134    .text.control_iter:0000000000000088 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:145    .bss.controlRunning:0000000000000000 controlRunning
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:151    .data.currentControl:0000000000000000 currentControl
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc6sQdNZ.s:146    .bss.controlRunning:0000000000000000 $d
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+HAL_GetTick
+encoder_update
+encoder_left_getVal
+encoder_right_getVal
+printf

@@ -1,0 +1,479 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"encoders.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	tim2,4,4
+  21              		.comm	tim3,4,4
+  22              		.comm	previousLeftTicks,2,2
+  23              		.comm	previousRightTicks,2,2
+  24              		.comm	leftVel,2,2
+  25              		.comm	rightVel,2,2
+  26              		.comm	leftPos,2,2
+  27              		.comm	rightPos,2,2
+  28              		.section	.text.encoder_init,"ax",%progbits
+  29              		.align	2
+  30              		.global	encoder_init
+  31              		.thumb
+  32              		.thumb_func
+  34              	encoder_init:
+  35              	.LFB123:
+  36              		.file 1 "Src/peripherals/encoders.c"
+   1:Src/peripherals/encoders.c **** #include "peripherals/encoders.h"
+   2:Src/peripherals/encoders.c **** 
+   3:Src/peripherals/encoders.c **** void encoder_init(TIM_HandleTypeDef* htim2_, TIM_HandleTypeDef* htim3_) {
+  37              		.loc 1 3 0
+  38              		.cfi_startproc
+  39              		@ args = 0, pretend = 0, frame = 8
+  40              		@ frame_needed = 1, uses_anonymous_args = 0
+  41              		@ link register save eliminated.
+  42 0000 80B4     		push	{r7}
+  43              	.LCFI0:
+  44              		.cfi_def_cfa_offset 4
+  45              		.cfi_offset 7, -4
+  46 0002 83B0     		sub	sp, sp, #12
+  47              	.LCFI1:
+  48              		.cfi_def_cfa_offset 16
+  49 0004 00AF     		add	r7, sp, #0
+  50              	.LCFI2:
+  51              		.cfi_def_cfa_register 7
+  52 0006 7860     		str	r0, [r7, #4]
+  53 0008 3960     		str	r1, [r7]
+   4:Src/peripherals/encoders.c ****     tim2               = htim2_;
+  54              		.loc 1 4 0
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 2
+
+
+  55 000a 0E4A     		ldr	r2, .L2
+  56 000c 7B68     		ldr	r3, [r7, #4]
+  57 000e 1360     		str	r3, [r2]
+   5:Src/peripherals/encoders.c ****     tim3               = htim3_;
+  58              		.loc 1 5 0
+  59 0010 0D4A     		ldr	r2, .L2+4
+  60 0012 3B68     		ldr	r3, [r7]
+  61 0014 1360     		str	r3, [r2]
+   6:Src/peripherals/encoders.c ****     previousLeftTicks  = 0;
+  62              		.loc 1 6 0
+  63 0016 0D4B     		ldr	r3, .L2+8
+  64 0018 0022     		movs	r2, #0
+  65 001a 1A80     		strh	r2, [r3]	@ movhi
+   7:Src/peripherals/encoders.c ****     previousRightTicks = 0;
+  66              		.loc 1 7 0
+  67 001c 0C4B     		ldr	r3, .L2+12
+  68 001e 0022     		movs	r2, #0
+  69 0020 1A80     		strh	r2, [r3]	@ movhi
+   8:Src/peripherals/encoders.c ****     leftVel            = 0;
+  70              		.loc 1 8 0
+  71 0022 0C4B     		ldr	r3, .L2+16
+  72 0024 0022     		movs	r2, #0
+  73 0026 1A80     		strh	r2, [r3]	@ movhi
+   9:Src/peripherals/encoders.c ****     rightVel           = 0;
+  74              		.loc 1 9 0
+  75 0028 0B4B     		ldr	r3, .L2+20
+  76 002a 0022     		movs	r2, #0
+  77 002c 1A80     		strh	r2, [r3]	@ movhi
+  10:Src/peripherals/encoders.c ****     leftPos            = 0;
+  78              		.loc 1 10 0
+  79 002e 0B4B     		ldr	r3, .L2+24
+  80 0030 0022     		movs	r2, #0
+  81 0032 1A80     		strh	r2, [r3]	@ movhi
+  11:Src/peripherals/encoders.c ****     rightPos           = 0;
+  82              		.loc 1 11 0
+  83 0034 0A4B     		ldr	r3, .L2+28
+  84 0036 0022     		movs	r2, #0
+  85 0038 1A80     		strh	r2, [r3]	@ movhi
+  12:Src/peripherals/encoders.c **** }
+  86              		.loc 1 12 0
+  87 003a 0C37     		adds	r7, r7, #12
+  88              	.LCFI3:
+  89              		.cfi_def_cfa_offset 4
+  90 003c BD46     		mov	sp, r7
+  91              	.LCFI4:
+  92              		.cfi_def_cfa_register 13
+  93              		@ sp needed
+  94 003e 5DF8047B 		ldr	r7, [sp], #4
+  95              	.LCFI5:
+  96              		.cfi_restore 7
+  97              		.cfi_def_cfa_offset 0
+  98 0042 7047     		bx	lr
+  99              	.L3:
+ 100              		.align	2
+ 101              	.L2:
+ 102 0044 00000000 		.word	tim2
+ 103 0048 00000000 		.word	tim3
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 3
+
+
+ 104 004c 00000000 		.word	previousLeftTicks
+ 105 0050 00000000 		.word	previousRightTicks
+ 106 0054 00000000 		.word	leftVel
+ 107 0058 00000000 		.word	rightVel
+ 108 005c 00000000 		.word	leftPos
+ 109 0060 00000000 		.word	rightPos
+ 110              		.cfi_endproc
+ 111              	.LFE123:
+ 113              		.section	.text.encoder_update,"ax",%progbits
+ 114              		.align	2
+ 115              		.global	encoder_update
+ 116              		.thumb
+ 117              		.thumb_func
+ 119              	encoder_update:
+ 120              	.LFB124:
+  13:Src/peripherals/encoders.c **** 
+  14:Src/peripherals/encoders.c **** void encoder_update() {
+ 121              		.loc 1 14 0
+ 122              		.cfi_startproc
+ 123              		@ args = 0, pretend = 0, frame = 8
+ 124              		@ frame_needed = 1, uses_anonymous_args = 0
+ 125              		@ link register save eliminated.
+ 126 0000 80B4     		push	{r7}
+ 127              	.LCFI6:
+ 128              		.cfi_def_cfa_offset 4
+ 129              		.cfi_offset 7, -4
+ 130 0002 83B0     		sub	sp, sp, #12
+ 131              	.LCFI7:
+ 132              		.cfi_def_cfa_offset 16
+ 133 0004 00AF     		add	r7, sp, #0
+ 134              	.LCFI8:
+ 135              		.cfi_def_cfa_register 7
+  15:Src/peripherals/encoders.c ****     uint16_t leftTicks  = __HAL_TIM_GetCounter(tim2);
+ 136              		.loc 1 15 0
+ 137 0006 1A4B     		ldr	r3, .L5
+ 138 0008 1B68     		ldr	r3, [r3]
+ 139 000a 1B68     		ldr	r3, [r3]
+ 140 000c 5B6A     		ldr	r3, [r3, #36]
+ 141 000e FB80     		strh	r3, [r7, #6]	@ movhi
+  16:Src/peripherals/encoders.c ****     uint16_t rightTicks = __HAL_TIM_GetCounter(tim3);
+ 142              		.loc 1 16 0
+ 143 0010 184B     		ldr	r3, .L5+4
+ 144 0012 1B68     		ldr	r3, [r3]
+ 145 0014 1B68     		ldr	r3, [r3]
+ 146 0016 5B6A     		ldr	r3, [r3, #36]
+ 147 0018 BB80     		strh	r3, [r7, #4]	@ movhi
+  17:Src/peripherals/encoders.c ****     
+  18:Src/peripherals/encoders.c ****     leftVel             = leftTicks - previousLeftTicks;
+ 148              		.loc 1 18 0
+ 149 001a 174B     		ldr	r3, .L5+8
+ 150 001c 1B88     		ldrh	r3, [r3]
+ 151 001e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 152 0020 D31A     		subs	r3, r2, r3
+ 153 0022 9BB2     		uxth	r3, r3
+ 154 0024 9AB2     		uxth	r2, r3
+ 155 0026 154B     		ldr	r3, .L5+12
+ 156 0028 1A80     		strh	r2, [r3]	@ movhi
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 4
+
+
+  19:Src/peripherals/encoders.c ****     rightVel            = rightTicks - previousRightTicks;
+ 157              		.loc 1 19 0
+ 158 002a 154B     		ldr	r3, .L5+16
+ 159 002c 1B88     		ldrh	r3, [r3]
+ 160 002e BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 161 0030 D31A     		subs	r3, r2, r3
+ 162 0032 9BB2     		uxth	r3, r3
+ 163 0034 9AB2     		uxth	r2, r3
+ 164 0036 134B     		ldr	r3, .L5+20
+ 165 0038 1A80     		strh	r2, [r3]	@ movhi
+  20:Src/peripherals/encoders.c ****     
+  21:Src/peripherals/encoders.c ****     leftPos             += leftVel;
+ 166              		.loc 1 21 0
+ 167 003a 134B     		ldr	r3, .L5+24
+ 168 003c 1B88     		ldrh	r3, [r3]
+ 169 003e 9AB2     		uxth	r2, r3
+ 170 0040 0E4B     		ldr	r3, .L5+12
+ 171 0042 1B88     		ldrh	r3, [r3]
+ 172 0044 9BB2     		uxth	r3, r3
+ 173 0046 1344     		add	r3, r3, r2
+ 174 0048 9BB2     		uxth	r3, r3
+ 175 004a 9AB2     		uxth	r2, r3
+ 176 004c 0E4B     		ldr	r3, .L5+24
+ 177 004e 1A80     		strh	r2, [r3]	@ movhi
+  22:Src/peripherals/encoders.c ****     rightPos            += rightVel;
+ 178              		.loc 1 22 0
+ 179 0050 0E4B     		ldr	r3, .L5+28
+ 180 0052 1B88     		ldrh	r3, [r3]
+ 181 0054 9AB2     		uxth	r2, r3
+ 182 0056 0B4B     		ldr	r3, .L5+20
+ 183 0058 1B88     		ldrh	r3, [r3]
+ 184 005a 9BB2     		uxth	r3, r3
+ 185 005c 1344     		add	r3, r3, r2
+ 186 005e 9BB2     		uxth	r3, r3
+ 187 0060 9AB2     		uxth	r2, r3
+ 188 0062 0A4B     		ldr	r3, .L5+28
+ 189 0064 1A80     		strh	r2, [r3]	@ movhi
+  23:Src/peripherals/encoders.c **** }
+ 190              		.loc 1 23 0
+ 191 0066 0C37     		adds	r7, r7, #12
+ 192              	.LCFI9:
+ 193              		.cfi_def_cfa_offset 4
+ 194 0068 BD46     		mov	sp, r7
+ 195              	.LCFI10:
+ 196              		.cfi_def_cfa_register 13
+ 197              		@ sp needed
+ 198 006a 5DF8047B 		ldr	r7, [sp], #4
+ 199              	.LCFI11:
+ 200              		.cfi_restore 7
+ 201              		.cfi_def_cfa_offset 0
+ 202 006e 7047     		bx	lr
+ 203              	.L6:
+ 204              		.align	2
+ 205              	.L5:
+ 206 0070 00000000 		.word	tim2
+ 207 0074 00000000 		.word	tim3
+ 208 0078 00000000 		.word	previousLeftTicks
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 5
+
+
+ 209 007c 00000000 		.word	leftVel
+ 210 0080 00000000 		.word	previousRightTicks
+ 211 0084 00000000 		.word	rightVel
+ 212 0088 00000000 		.word	leftPos
+ 213 008c 00000000 		.word	rightPos
+ 214              		.cfi_endproc
+ 215              	.LFE124:
+ 217              		.section	.text.encoder_left_getVal,"ax",%progbits
+ 218              		.align	2
+ 219              		.global	encoder_left_getVal
+ 220              		.thumb
+ 221              		.thumb_func
+ 223              	encoder_left_getVal:
+ 224              	.LFB125:
+  24:Src/peripherals/encoders.c **** 
+  25:Src/peripherals/encoders.c **** int16_t encoder_left_getVal() {
+ 225              		.loc 1 25 0
+ 226              		.cfi_startproc
+ 227              		@ args = 0, pretend = 0, frame = 0
+ 228              		@ frame_needed = 1, uses_anonymous_args = 0
+ 229              		@ link register save eliminated.
+ 230 0000 80B4     		push	{r7}
+ 231              	.LCFI12:
+ 232              		.cfi_def_cfa_offset 4
+ 233              		.cfi_offset 7, -4
+ 234 0002 00AF     		add	r7, sp, #0
+ 235              	.LCFI13:
+ 236              		.cfi_def_cfa_register 7
+  26:Src/peripherals/encoders.c ****     return leftVel;
+ 237              		.loc 1 26 0
+ 238 0004 034B     		ldr	r3, .L9
+ 239 0006 1B88     		ldrh	r3, [r3]
+ 240 0008 1BB2     		sxth	r3, r3
+  27:Src/peripherals/encoders.c **** }
+ 241              		.loc 1 27 0
+ 242 000a 1846     		mov	r0, r3
+ 243 000c BD46     		mov	sp, r7
+ 244              	.LCFI14:
+ 245              		.cfi_def_cfa_register 13
+ 246              		@ sp needed
+ 247 000e 5DF8047B 		ldr	r7, [sp], #4
+ 248              	.LCFI15:
+ 249              		.cfi_restore 7
+ 250              		.cfi_def_cfa_offset 0
+ 251 0012 7047     		bx	lr
+ 252              	.L10:
+ 253              		.align	2
+ 254              	.L9:
+ 255 0014 00000000 		.word	leftVel
+ 256              		.cfi_endproc
+ 257              	.LFE125:
+ 259              		.section	.text.encoder_right_getVal,"ax",%progbits
+ 260              		.align	2
+ 261              		.global	encoder_right_getVal
+ 262              		.thumb
+ 263              		.thumb_func
+ 265              	encoder_right_getVal:
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 6
+
+
+ 266              	.LFB126:
+  28:Src/peripherals/encoders.c **** 
+  29:Src/peripherals/encoders.c **** int16_t encoder_right_getVal() {
+ 267              		.loc 1 29 0
+ 268              		.cfi_startproc
+ 269              		@ args = 0, pretend = 0, frame = 0
+ 270              		@ frame_needed = 1, uses_anonymous_args = 0
+ 271              		@ link register save eliminated.
+ 272 0000 80B4     		push	{r7}
+ 273              	.LCFI16:
+ 274              		.cfi_def_cfa_offset 4
+ 275              		.cfi_offset 7, -4
+ 276 0002 00AF     		add	r7, sp, #0
+ 277              	.LCFI17:
+ 278              		.cfi_def_cfa_register 7
+  30:Src/peripherals/encoders.c ****     return rightVel;
+ 279              		.loc 1 30 0
+ 280 0004 034B     		ldr	r3, .L13
+ 281 0006 1B88     		ldrh	r3, [r3]
+ 282 0008 1BB2     		sxth	r3, r3
+  31:Src/peripherals/encoders.c **** }
+ 283              		.loc 1 31 0
+ 284 000a 1846     		mov	r0, r3
+ 285 000c BD46     		mov	sp, r7
+ 286              	.LCFI18:
+ 287              		.cfi_def_cfa_register 13
+ 288              		@ sp needed
+ 289 000e 5DF8047B 		ldr	r7, [sp], #4
+ 290              	.LCFI19:
+ 291              		.cfi_restore 7
+ 292              		.cfi_def_cfa_offset 0
+ 293 0012 7047     		bx	lr
+ 294              	.L14:
+ 295              		.align	2
+ 296              	.L13:
+ 297 0014 00000000 		.word	rightVel
+ 298              		.cfi_endproc
+ 299              	.LFE126:
+ 301              		.section	.text.encoder_left_getPos,"ax",%progbits
+ 302              		.align	2
+ 303              		.global	encoder_left_getPos
+ 304              		.thumb
+ 305              		.thumb_func
+ 307              	encoder_left_getPos:
+ 308              	.LFB127:
+  32:Src/peripherals/encoders.c **** 
+  33:Src/peripherals/encoders.c **** int16_t encoder_left_getPos() {
+ 309              		.loc 1 33 0
+ 310              		.cfi_startproc
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 1, uses_anonymous_args = 0
+ 313              		@ link register save eliminated.
+ 314 0000 80B4     		push	{r7}
+ 315              	.LCFI20:
+ 316              		.cfi_def_cfa_offset 4
+ 317              		.cfi_offset 7, -4
+ 318 0002 00AF     		add	r7, sp, #0
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 7
+
+
+ 319              	.LCFI21:
+ 320              		.cfi_def_cfa_register 7
+  34:Src/peripherals/encoders.c ****     return leftPos;
+ 321              		.loc 1 34 0
+ 322 0004 034B     		ldr	r3, .L17
+ 323 0006 1B88     		ldrh	r3, [r3]
+ 324 0008 1BB2     		sxth	r3, r3
+  35:Src/peripherals/encoders.c **** }
+ 325              		.loc 1 35 0
+ 326 000a 1846     		mov	r0, r3
+ 327 000c BD46     		mov	sp, r7
+ 328              	.LCFI22:
+ 329              		.cfi_def_cfa_register 13
+ 330              		@ sp needed
+ 331 000e 5DF8047B 		ldr	r7, [sp], #4
+ 332              	.LCFI23:
+ 333              		.cfi_restore 7
+ 334              		.cfi_def_cfa_offset 0
+ 335 0012 7047     		bx	lr
+ 336              	.L18:
+ 337              		.align	2
+ 338              	.L17:
+ 339 0014 00000000 		.word	leftPos
+ 340              		.cfi_endproc
+ 341              	.LFE127:
+ 343              		.section	.text.encoder_right_getPos,"ax",%progbits
+ 344              		.align	2
+ 345              		.global	encoder_right_getPos
+ 346              		.thumb
+ 347              		.thumb_func
+ 349              	encoder_right_getPos:
+ 350              	.LFB128:
+  36:Src/peripherals/encoders.c **** 
+  37:Src/peripherals/encoders.c **** int16_t encoder_right_getPos() {
+ 351              		.loc 1 37 0
+ 352              		.cfi_startproc
+ 353              		@ args = 0, pretend = 0, frame = 0
+ 354              		@ frame_needed = 1, uses_anonymous_args = 0
+ 355              		@ link register save eliminated.
+ 356 0000 80B4     		push	{r7}
+ 357              	.LCFI24:
+ 358              		.cfi_def_cfa_offset 4
+ 359              		.cfi_offset 7, -4
+ 360 0002 00AF     		add	r7, sp, #0
+ 361              	.LCFI25:
+ 362              		.cfi_def_cfa_register 7
+  38:Src/peripherals/encoders.c ****     return rightPos;
+ 363              		.loc 1 38 0
+ 364 0004 034B     		ldr	r3, .L21
+ 365 0006 1B88     		ldrh	r3, [r3]
+ 366 0008 1BB2     		sxth	r3, r3
+  39:Src/peripherals/encoders.c **** }
+ 367              		.loc 1 39 0
+ 368 000a 1846     		mov	r0, r3
+ 369 000c BD46     		mov	sp, r7
+ 370              	.LCFI26:
+ 371              		.cfi_def_cfa_register 13
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 8
+
+
+ 372              		@ sp needed
+ 373 000e 5DF8047B 		ldr	r7, [sp], #4
+ 374              	.LCFI27:
+ 375              		.cfi_restore 7
+ 376              		.cfi_def_cfa_offset 0
+ 377 0012 7047     		bx	lr
+ 378              	.L22:
+ 379              		.align	2
+ 380              	.L21:
+ 381 0014 00000000 		.word	rightPos
+ 382              		.cfi_endproc
+ 383              	.LFE128:
+ 385              		.text
+ 386              	.Letext0:
+ 387              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 388              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 389              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 390              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 391              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 392              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 393              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 394              		.file 9 "Inc/peripherals/encoders.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 encoders.c
+                            *COM*:0000000000000004 tim2
+                            *COM*:0000000000000004 tim3
+                            *COM*:0000000000000002 previousLeftTicks
+                            *COM*:0000000000000002 previousRightTicks
+                            *COM*:0000000000000002 leftVel
+                            *COM*:0000000000000002 rightVel
+                            *COM*:0000000000000002 leftPos
+                            *COM*:0000000000000002 rightPos
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:29     .text.encoder_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:34     .text.encoder_init:0000000000000000 encoder_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:102    .text.encoder_init:0000000000000044 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:114    .text.encoder_update:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:119    .text.encoder_update:0000000000000000 encoder_update
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:206    .text.encoder_update:0000000000000070 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:218    .text.encoder_left_getVal:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:223    .text.encoder_left_getVal:0000000000000000 encoder_left_getVal
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:255    .text.encoder_left_getVal:0000000000000014 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:260    .text.encoder_right_getVal:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:265    .text.encoder_right_getVal:0000000000000000 encoder_right_getVal
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:297    .text.encoder_right_getVal:0000000000000014 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:302    .text.encoder_left_getPos:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:307    .text.encoder_left_getPos:0000000000000000 encoder_left_getPos
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:339    .text.encoder_left_getPos:0000000000000014 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:344    .text.encoder_right_getPos:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:349    .text.encoder_right_getPos:0000000000000000 encoder_right_getPos
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccFEflzD.s:381    .text.encoder_right_getPos:0000000000000014 $d
+                     .debug_frame:0000000000000010 $d
+
+NO UNDEFINED SYMBOLS

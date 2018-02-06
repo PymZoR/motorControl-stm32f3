@@ -1,0 +1,186 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"motionController.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	can,4,4
+  21              		.comm	uart,4,4
+  22              		.comm	uart_rx_index,1,1
+  23              		.comm	uart_rx_buf,1,4
+  24              		.comm	tim2,4,4
+  25              		.comm	tim3,4,4
+  26              		.comm	previousLeftTicks,2,2
+  27              		.comm	previousRightTicks,2,2
+  28              		.comm	leftVel,2,2
+  29              		.comm	rightVel,2,2
+  30              		.comm	leftPos,2,2
+  31              		.comm	rightPos,2,2
+  32              		.comm	tim16,4,4
+  33              		.comm	tim17,4,4
+  34              		.comm	lastIter,4,4
+  35              		.section	.text.motionController_init,"ax",%progbits
+  36              		.align	2
+  37              		.global	motionController_init
+  38              		.thumb
+  39              		.thumb_func
+  41              	motionController_init:
+  42              	.LFB123:
+  43              		.file 1 "Src/motionController.c"
+   1:Src/motionController.c **** #include "motionController.h"
+   2:Src/motionController.c **** 
+   3:Src/motionController.c **** void motionController_init(UART_HandleTypeDef* huart_, CAN_HandleTypeDef* hcan_, TIM_HandleTypeDef*
+   4:Src/motionController.c ****     TIM_HandleTypeDef* htim3_, TIM_HandleTypeDef* htim16_, TIM_HandleTypeDef* htim17_) {
+  44              		.loc 1 4 0
+  45              		.cfi_startproc
+  46              		@ args = 8, pretend = 0, frame = 16
+  47              		@ frame_needed = 1, uses_anonymous_args = 0
+  48 0000 80B5     		push	{r7, lr}
+  49              	.LCFI0:
+  50              		.cfi_def_cfa_offset 8
+  51              		.cfi_offset 7, -8
+  52              		.cfi_offset 14, -4
+  53 0002 84B0     		sub	sp, sp, #16
+  54              	.LCFI1:
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s 			page 2
+
+
+  55              		.cfi_def_cfa_offset 24
+  56 0004 00AF     		add	r7, sp, #0
+  57              	.LCFI2:
+  58              		.cfi_def_cfa_register 7
+  59 0006 F860     		str	r0, [r7, #12]
+  60 0008 B960     		str	r1, [r7, #8]
+  61 000a 7A60     		str	r2, [r7, #4]
+  62 000c 3B60     		str	r3, [r7]
+   5:Src/motionController.c **** 
+   6:Src/motionController.c ****     can_init(hcan_);
+  63              		.loc 1 6 0
+  64 000e B868     		ldr	r0, [r7, #8]
+  65 0010 FFF7FEFF 		bl	can_init
+   7:Src/motionController.c ****     uart_init(huart_);
+  66              		.loc 1 7 0
+  67 0014 F868     		ldr	r0, [r7, #12]
+  68 0016 FFF7FEFF 		bl	uart_init
+   8:Src/motionController.c ****     encoder_init(htim2_, htim3_);
+  69              		.loc 1 8 0
+  70 001a 7868     		ldr	r0, [r7, #4]
+  71 001c 3968     		ldr	r1, [r7]
+  72 001e FFF7FEFF 		bl	encoder_init
+   9:Src/motionController.c ****     pwm_init(htim16_, htim17_);
+  73              		.loc 1 9 0
+  74 0022 B869     		ldr	r0, [r7, #24]
+  75 0024 F969     		ldr	r1, [r7, #28]
+  76 0026 FFF7FEFF 		bl	pwm_init
+  77              	.L2:
+  10:Src/motionController.c **** 
+  11:Src/motionController.c ****     for (;;) {
+  12:Src/motionController.c ****         motionController_loop();
+  78              		.loc 1 12 0 discriminator 1
+  79 002a FFF7FEFF 		bl	motionController_loop
+  13:Src/motionController.c ****     }
+  80              		.loc 1 13 0 discriminator 1
+  81 002e FCE7     		b	.L2
+  82              		.cfi_endproc
+  83              	.LFE123:
+  85              		.section	.text.motionController_loop,"ax",%progbits
+  86              		.align	2
+  87              		.global	motionController_loop
+  88              		.thumb
+  89              		.thumb_func
+  91              	motionController_loop:
+  92              	.LFB124:
+  14:Src/motionController.c **** }
+  15:Src/motionController.c **** 
+  16:Src/motionController.c **** void motionController_loop() {
+  93              		.loc 1 16 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 0
+  96              		@ frame_needed = 1, uses_anonymous_args = 0
+  97 0000 80B5     		push	{r7, lr}
+  98              	.LCFI3:
+  99              		.cfi_def_cfa_offset 8
+ 100              		.cfi_offset 7, -8
+ 101              		.cfi_offset 14, -4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s 			page 3
+
+
+ 102 0002 00AF     		add	r7, sp, #0
+ 103              	.LCFI4:
+ 104              		.cfi_def_cfa_register 7
+  17:Src/motionController.c ****     control_iter();
+ 105              		.loc 1 17 0
+ 106 0004 FFF7FEFF 		bl	control_iter
+  18:Src/motionController.c ****     uartProtocol_handleMessage();
+ 107              		.loc 1 18 0
+ 108 0008 FFF7FEFF 		bl	uartProtocol_handleMessage
+  19:Src/motionController.c **** }
+ 109              		.loc 1 19 0
+ 110 000c 80BD     		pop	{r7, pc}
+ 111              		.cfi_endproc
+ 112              	.LFE124:
+ 114 000e 00BF     		.text
+ 115              	.Letext0:
+ 116              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 117              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 118              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 119              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 120              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 121              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_can.h"
+ 122              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 123              		.file 9 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 124              		.file 10 "Drivers/CMSIS/Include/core_cm4.h"
+ 125              		.file 11 "Inc/peripherals/uart.h"
+ 126              		.file 12 "Inc/peripherals/encoders.h"
+ 127              		.file 13 "Inc/peripherals/pwm.h"
+ 128              		.file 14 "Inc/motionControl/control.h"
+ 129              		.file 15 "Inc/peripherals/can.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 motionController.c
+                            *COM*:0000000000000004 can
+                            *COM*:0000000000000004 uart
+                            *COM*:0000000000000001 uart_rx_index
+                            *COM*:0000000000000001 uart_rx_buf
+                            *COM*:0000000000000004 tim2
+                            *COM*:0000000000000004 tim3
+                            *COM*:0000000000000002 previousLeftTicks
+                            *COM*:0000000000000002 previousRightTicks
+                            *COM*:0000000000000002 leftVel
+                            *COM*:0000000000000002 rightVel
+                            *COM*:0000000000000002 leftPos
+                            *COM*:0000000000000002 rightPos
+                            *COM*:0000000000000004 tim16
+                            *COM*:0000000000000004 tim17
+                            *COM*:0000000000000004 lastIter
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s:36     .text.motionController_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s:41     .text.motionController_init:0000000000000000 motionController_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s:91     .text.motionController_loop:0000000000000000 motionController_loop
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cckUvdps.s:86     .text.motionController_loop:0000000000000000 $t
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+can_init
+uart_init
+encoder_init
+pwm_init
+control_iter
+uartProtocol_handleMessage

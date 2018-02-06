@@ -1,0 +1,435 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"uart.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	uart,4,4
+  21              		.comm	uart_rx_index,1,1
+  22              		.comm	uart_rx_buf,1,4
+  23              		.section	.text._write,"ax",%progbits
+  24              		.align	2
+  25              		.global	_write
+  26              		.thumb
+  27              		.thumb_func
+  29              	_write:
+  30              	.LFB123:
+  31              		.file 1 "Src/peripherals/uart.c"
+   1:Src/peripherals/uart.c **** #include "peripherals/uart.h"
+   2:Src/peripherals/uart.c **** 
+   3:Src/peripherals/uart.c **** int _write(int file, char *ptr, int len) {
+  32              		.loc 1 3 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 16
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36 0000 80B5     		push	{r7, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 84B0     		sub	sp, sp, #16
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_offset 24
+  44 0004 00AF     		add	r7, sp, #0
+  45              	.LCFI2:
+  46              		.cfi_def_cfa_register 7
+  47 0006 F860     		str	r0, [r7, #12]
+  48 0008 B960     		str	r1, [r7, #8]
+  49 000a 7A60     		str	r2, [r7, #4]
+   4:Src/peripherals/uart.c ****     switch (file) {
+  50              		.loc 1 4 0
+  51 000c FB68     		ldr	r3, [r7, #12]
+  52 000e 012B     		cmp	r3, #1
+  53 0010 02D0     		beq	.L3
+  54 0012 022B     		cmp	r3, #2
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 2
+
+
+  55 0014 0AD0     		beq	.L4
+  56 0016 13E0     		b	.L8
+  57              	.L3:
+   5:Src/peripherals/uart.c ****         case STDOUT_FILENO:
+   6:Src/peripherals/uart.c ****             HAL_UART_Transmit_IT(uart, (uint8_t*)ptr, len);
+  58              		.loc 1 6 0
+  59 0018 164B     		ldr	r3, .L9
+  60 001a 1A68     		ldr	r2, [r3]
+  61 001c 7B68     		ldr	r3, [r7, #4]
+  62 001e 9BB2     		uxth	r3, r3
+  63 0020 1046     		mov	r0, r2
+  64 0022 B968     		ldr	r1, [r7, #8]
+  65 0024 1A46     		mov	r2, r3
+  66 0026 FFF7FEFF 		bl	HAL_UART_Transmit_IT
+   7:Src/peripherals/uart.c ****             break;
+  67              		.loc 1 7 0
+  68 002a 0CE0     		b	.L5
+  69              	.L4:
+   8:Src/peripherals/uart.c ****         
+   9:Src/peripherals/uart.c ****         case STDERR_FILENO: 
+  10:Src/peripherals/uart.c ****             HAL_UART_Transmit_IT(uart, (uint8_t*)ptr, len);
+  70              		.loc 1 10 0
+  71 002c 114B     		ldr	r3, .L9
+  72 002e 1A68     		ldr	r2, [r3]
+  73 0030 7B68     		ldr	r3, [r7, #4]
+  74 0032 9BB2     		uxth	r3, r3
+  75 0034 1046     		mov	r0, r2
+  76 0036 B968     		ldr	r1, [r7, #8]
+  77 0038 1A46     		mov	r2, r3
+  78 003a FFF7FEFF 		bl	HAL_UART_Transmit_IT
+  11:Src/peripherals/uart.c ****             break;
+  79              		.loc 1 11 0
+  80 003e 02E0     		b	.L5
+  81              	.L8:
+  12:Src/peripherals/uart.c **** 
+  13:Src/peripherals/uart.c ****         default:
+  14:Src/peripherals/uart.c ****             return -1;
+  82              		.loc 1 14 0
+  83 0040 4FF0FF33 		mov	r3, #-1
+  84 0044 11E0     		b	.L6
+  85              	.L5:
+  15:Src/peripherals/uart.c ****     }
+  16:Src/peripherals/uart.c **** 
+  17:Src/peripherals/uart.c ****     while (HAL_UART_GetState(uart) == HAL_UART_STATE_BUSY_TX || HAL_UART_GetState(uart) == HAL_UART
+  86              		.loc 1 17 0
+  87 0046 00BF     		nop
+  88              	.L7:
+  89              		.loc 1 17 0 is_stmt 0 discriminator 3
+  90 0048 0A4B     		ldr	r3, .L9
+  91 004a 1B68     		ldr	r3, [r3]
+  92 004c 1846     		mov	r0, r3
+  93 004e FFF7FEFF 		bl	HAL_UART_GetState
+  94 0052 0346     		mov	r3, r0
+  95 0054 212B     		cmp	r3, #33
+  96 0056 F7D0     		beq	.L7
+  97              		.loc 1 17 0 discriminator 2
+  98 0058 064B     		ldr	r3, .L9
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 3
+
+
+  99 005a 1B68     		ldr	r3, [r3]
+ 100 005c 1846     		mov	r0, r3
+ 101 005e FFF7FEFF 		bl	HAL_UART_GetState
+ 102 0062 0346     		mov	r3, r0
+ 103 0064 232B     		cmp	r3, #35
+ 104 0066 EFD0     		beq	.L7
+  18:Src/peripherals/uart.c ****     return len;
+ 105              		.loc 1 18 0 is_stmt 1
+ 106 0068 7B68     		ldr	r3, [r7, #4]
+ 107              	.L6:
+  19:Src/peripherals/uart.c **** }
+ 108              		.loc 1 19 0
+ 109 006a 1846     		mov	r0, r3
+ 110 006c 1037     		adds	r7, r7, #16
+ 111              	.LCFI3:
+ 112              		.cfi_def_cfa_offset 8
+ 113 006e BD46     		mov	sp, r7
+ 114              	.LCFI4:
+ 115              		.cfi_def_cfa_register 13
+ 116              		@ sp needed
+ 117 0070 80BD     		pop	{r7, pc}
+ 118              	.L10:
+ 119 0072 00BF     		.align	2
+ 120              	.L9:
+ 121 0074 00000000 		.word	uart
+ 122              		.cfi_endproc
+ 123              	.LFE123:
+ 125              		.section	.text.uart_init,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	uart_init
+ 128              		.thumb
+ 129              		.thumb_func
+ 131              	uart_init:
+ 132              	.LFB124:
+  20:Src/peripherals/uart.c **** 
+  21:Src/peripherals/uart.c **** void uart_init(UART_HandleTypeDef* huart_) {
+ 133              		.loc 1 21 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 8
+ 136              		@ frame_needed = 1, uses_anonymous_args = 0
+ 137 0000 80B5     		push	{r7, lr}
+ 138              	.LCFI5:
+ 139              		.cfi_def_cfa_offset 8
+ 140              		.cfi_offset 7, -8
+ 141              		.cfi_offset 14, -4
+ 142 0002 82B0     		sub	sp, sp, #8
+ 143              	.LCFI6:
+ 144              		.cfi_def_cfa_offset 16
+ 145 0004 00AF     		add	r7, sp, #0
+ 146              	.LCFI7:
+ 147              		.cfi_def_cfa_register 7
+ 148 0006 7860     		str	r0, [r7, #4]
+  22:Src/peripherals/uart.c ****     uart = huart_;
+ 149              		.loc 1 22 0
+ 150 0008 074A     		ldr	r2, .L12
+ 151 000a 7B68     		ldr	r3, [r7, #4]
+ 152 000c 1360     		str	r3, [r2]
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 4
+
+
+  23:Src/peripherals/uart.c ****     uart_reset();
+ 153              		.loc 1 23 0
+ 154 000e FFF7FEFF 		bl	uart_reset
+  24:Src/peripherals/uart.c ****     HAL_UART_Receive_IT(uart, uart_rx_buf, 1);
+ 155              		.loc 1 24 0
+ 156 0012 054B     		ldr	r3, .L12
+ 157 0014 1B68     		ldr	r3, [r3]
+ 158 0016 1846     		mov	r0, r3
+ 159 0018 0449     		ldr	r1, .L12+4
+ 160 001a 0122     		movs	r2, #1
+ 161 001c FFF7FEFF 		bl	HAL_UART_Receive_IT
+  25:Src/peripherals/uart.c **** }
+ 162              		.loc 1 25 0
+ 163 0020 0837     		adds	r7, r7, #8
+ 164              	.LCFI8:
+ 165              		.cfi_def_cfa_offset 8
+ 166 0022 BD46     		mov	sp, r7
+ 167              	.LCFI9:
+ 168              		.cfi_def_cfa_register 13
+ 169              		@ sp needed
+ 170 0024 80BD     		pop	{r7, pc}
+ 171              	.L13:
+ 172 0026 00BF     		.align	2
+ 173              	.L12:
+ 174 0028 00000000 		.word	uart
+ 175 002c 00000000 		.word	uart_rx_buf
+ 176              		.cfi_endproc
+ 177              	.LFE124:
+ 179              		.section	.text.uart_reset,"ax",%progbits
+ 180              		.align	2
+ 181              		.global	uart_reset
+ 182              		.thumb
+ 183              		.thumb_func
+ 185              	uart_reset:
+ 186              	.LFB125:
+  26:Src/peripherals/uart.c **** 
+  27:Src/peripherals/uart.c **** void uart_reset() {
+ 187              		.loc 1 27 0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 1, uses_anonymous_args = 0
+ 191 0000 80B5     		push	{r7, lr}
+ 192              	.LCFI10:
+ 193              		.cfi_def_cfa_offset 8
+ 194              		.cfi_offset 7, -8
+ 195              		.cfi_offset 14, -4
+ 196 0002 00AF     		add	r7, sp, #0
+ 197              	.LCFI11:
+ 198              		.cfi_def_cfa_register 7
+  28:Src/peripherals/uart.c ****     uart_rx_index   = 0;
+ 199              		.loc 1 28 0
+ 200 0004 074B     		ldr	r3, .L15
+ 201 0006 0022     		movs	r2, #0
+ 202 0008 1A70     		strb	r2, [r3]
+  29:Src/peripherals/uart.c ****     memset(uart_rx_data, 0, UART_MAX_LEN);
+ 203              		.loc 1 29 0
+ 204 000a 0748     		ldr	r0, .L15+4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 5
+
+
+ 205 000c 0021     		movs	r1, #0
+ 206 000e 1E22     		movs	r2, #30
+ 207 0010 FFF7FEFF 		bl	memset
+  30:Src/peripherals/uart.c ****     uart_rx_buf[0] = 1;
+ 208              		.loc 1 30 0
+ 209 0014 054B     		ldr	r3, .L15+8
+ 210 0016 0122     		movs	r2, #1
+ 211 0018 1A70     		strb	r2, [r3]
+  31:Src/peripherals/uart.c ****     uart_rx_cplt   = false;
+ 212              		.loc 1 31 0
+ 213 001a 054B     		ldr	r3, .L15+12
+ 214 001c 0022     		movs	r2, #0
+ 215 001e 1A70     		strb	r2, [r3]
+  32:Src/peripherals/uart.c **** }
+ 216              		.loc 1 32 0
+ 217 0020 80BD     		pop	{r7, pc}
+ 218              	.L16:
+ 219 0022 00BF     		.align	2
+ 220              	.L15:
+ 221 0024 00000000 		.word	uart_rx_index
+ 222 0028 00000000 		.word	uart_rx_data
+ 223 002c 00000000 		.word	uart_rx_buf
+ 224 0030 00000000 		.word	uart_rx_cplt
+ 225              		.cfi_endproc
+ 226              	.LFE125:
+ 228              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 229              		.align	2
+ 230              		.global	HAL_UART_RxCpltCallback
+ 231              		.thumb
+ 232              		.thumb_func
+ 234              	HAL_UART_RxCpltCallback:
+ 235              	.LFB126:
+  33:Src/peripherals/uart.c **** 
+  34:Src/peripherals/uart.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart_) {
+ 236              		.loc 1 34 0
+ 237              		.cfi_startproc
+ 238              		@ args = 0, pretend = 0, frame = 16
+ 239              		@ frame_needed = 1, uses_anonymous_args = 0
+ 240 0000 80B5     		push	{r7, lr}
+ 241              	.LCFI12:
+ 242              		.cfi_def_cfa_offset 8
+ 243              		.cfi_offset 7, -8
+ 244              		.cfi_offset 14, -4
+ 245 0002 84B0     		sub	sp, sp, #16
+ 246              	.LCFI13:
+ 247              		.cfi_def_cfa_offset 24
+ 248 0004 00AF     		add	r7, sp, #0
+ 249              	.LCFI14:
+ 250              		.cfi_def_cfa_register 7
+ 251 0006 7860     		str	r0, [r7, #4]
+  35:Src/peripherals/uart.c ****     if (uart_rx_index == 0) {
+ 252              		.loc 1 35 0
+ 253 0008 174B     		ldr	r3, .L22
+ 254 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 255 000c 002B     		cmp	r3, #0
+ 256 000e 0CD1     		bne	.L18
+ 257              	.LBB2:
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 6
+
+
+  36:Src/peripherals/uart.c ****         for (uint8_t i = 0; i < UART_MAX_LEN; i++) {
+ 258              		.loc 1 36 0
+ 259 0010 0023     		movs	r3, #0
+ 260 0012 FB73     		strb	r3, [r7, #15]
+ 261 0014 06E0     		b	.L19
+ 262              	.L20:
+  37:Src/peripherals/uart.c ****             uart_rx_data[i] = 0; 
+ 263              		.loc 1 37 0 discriminator 3
+ 264 0016 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 265 0018 144A     		ldr	r2, .L22+4
+ 266 001a 0021     		movs	r1, #0
+ 267 001c D154     		strb	r1, [r2, r3]
+  36:Src/peripherals/uart.c ****         for (uint8_t i = 0; i < UART_MAX_LEN; i++) {
+ 268              		.loc 1 36 0 discriminator 3
+ 269 001e FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 270 0020 0133     		adds	r3, r3, #1
+ 271 0022 FB73     		strb	r3, [r7, #15]
+ 272              	.L19:
+  36:Src/peripherals/uart.c ****         for (uint8_t i = 0; i < UART_MAX_LEN; i++) {
+ 273              		.loc 1 36 0 is_stmt 0 discriminator 1
+ 274 0024 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 275 0026 1D2B     		cmp	r3, #29
+ 276 0028 F5D9     		bls	.L20
+ 277              	.L18:
+ 278              	.LBE2:
+  38:Src/peripherals/uart.c ****         } 
+  39:Src/peripherals/uart.c ****     }
+  40:Src/peripherals/uart.c **** 
+  41:Src/peripherals/uart.c ****     uart_rx_data[uart_rx_index++] = uart_rx_buf[0];
+ 279              		.loc 1 41 0 is_stmt 1
+ 280 002a 0F4B     		ldr	r3, .L22
+ 281 002c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 282 002e 5A1C     		adds	r2, r3, #1
+ 283 0030 D1B2     		uxtb	r1, r2
+ 284 0032 0D4A     		ldr	r2, .L22
+ 285 0034 1170     		strb	r1, [r2]
+ 286 0036 1A46     		mov	r2, r3
+ 287 0038 0D4B     		ldr	r3, .L22+8
+ 288 003a 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+ 289 003c 0B4B     		ldr	r3, .L22+4
+ 290 003e 9954     		strb	r1, [r3, r2]
+  42:Src/peripherals/uart.c ****     if (uart_rx_buf[0] == '\n') {  
+ 291              		.loc 1 42 0
+ 292 0040 0B4B     		ldr	r3, .L22+8
+ 293 0042 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 294 0044 0A2B     		cmp	r3, #10
+ 295 0046 05D1     		bne	.L21
+  43:Src/peripherals/uart.c ****         uart_rx_index = 0;
+ 296              		.loc 1 43 0
+ 297 0048 074B     		ldr	r3, .L22
+ 298 004a 0022     		movs	r2, #0
+ 299 004c 1A70     		strb	r2, [r3]
+  44:Src/peripherals/uart.c ****         uart_rx_cplt = 1;
+ 300              		.loc 1 44 0
+ 301 004e 094B     		ldr	r3, .L22+12
+ 302 0050 0122     		movs	r2, #1
+ 303 0052 1A70     		strb	r2, [r3]
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 7
+
+
+ 304              	.L21:
+  45:Src/peripherals/uart.c ****     } 
+  46:Src/peripherals/uart.c **** 
+  47:Src/peripherals/uart.c ****     HAL_UART_Receive_IT(uart, uart_rx_buf, 1);
+ 305              		.loc 1 47 0
+ 306 0054 084B     		ldr	r3, .L22+16
+ 307 0056 1B68     		ldr	r3, [r3]
+ 308 0058 1846     		mov	r0, r3
+ 309 005a 0549     		ldr	r1, .L22+8
+ 310 005c 0122     		movs	r2, #1
+ 311 005e FFF7FEFF 		bl	HAL_UART_Receive_IT
+  48:Src/peripherals/uart.c **** }
+ 312              		.loc 1 48 0
+ 313 0062 1037     		adds	r7, r7, #16
+ 314              	.LCFI15:
+ 315              		.cfi_def_cfa_offset 8
+ 316 0064 BD46     		mov	sp, r7
+ 317              	.LCFI16:
+ 318              		.cfi_def_cfa_register 13
+ 319              		@ sp needed
+ 320 0066 80BD     		pop	{r7, pc}
+ 321              	.L23:
+ 322              		.align	2
+ 323              	.L22:
+ 324 0068 00000000 		.word	uart_rx_index
+ 325 006c 00000000 		.word	uart_rx_data
+ 326 0070 00000000 		.word	uart_rx_buf
+ 327 0074 00000000 		.word	uart_rx_cplt
+ 328 0078 00000000 		.word	uart
+ 329              		.cfi_endproc
+ 330              	.LFE126:
+ 332              		.comm	uart_rx_data,30,4
+ 333              		.comm	uart_rx_cplt,1,1
+ 334              		.text
+ 335              	.Letext0:
+ 336              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 337              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 338              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 339              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 340              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 341              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 342              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 343              		.file 9 "Inc/peripherals/uart.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uart.c
+                            *COM*:0000000000000004 uart
+                            *COM*:0000000000000001 uart_rx_index
+                            *COM*:0000000000000001 uart_rx_buf
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:24     .text._write:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:29     .text._write:0000000000000000 _write
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:121    .text._write:0000000000000074 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:126    .text.uart_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:131    .text.uart_init:0000000000000000 uart_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:185    .text.uart_reset:0000000000000000 uart_reset
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:174    .text.uart_init:0000000000000028 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:180    .text.uart_reset:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:221    .text.uart_reset:0000000000000024 $d
+                            *COM*:000000000000001e uart_rx_data
+                            *COM*:0000000000000001 uart_rx_cplt
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:229    .text.HAL_UART_RxCpltCallback:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:234    .text.HAL_UART_RxCpltCallback:0000000000000000 HAL_UART_RxCpltCallback
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccnvnmoX.s:324    .text.HAL_UART_RxCpltCallback:0000000000000068 $d
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Transmit_IT
+HAL_UART_GetState
+HAL_UART_Receive_IT
+memset

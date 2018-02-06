@@ -1,0 +1,332 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"motors.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	tim16,4,4
+  21              		.comm	tim17,4,4
+  22              		.comm	tim2,4,4
+  23              		.comm	tim3,4,4
+  24              		.comm	previousLeftTicks,2,2
+  25              		.comm	previousRightTicks,2,2
+  26              		.comm	leftVel,2,2
+  27              		.comm	rightVel,2,2
+  28              		.comm	leftPos,2,2
+  29              		.comm	rightPos,2,2
+  30              		.comm	lastIter,4,4
+  31              		.global	__aeabi_i2d
+  32              		.global	__aeabi_d2uiz
+  33              		.section	.text.motor_left_drive,"ax",%progbits
+  34              		.align	2
+  35              		.global	motor_left_drive
+  36              		.thumb
+  37              		.thumb_func
+  39              	motor_left_drive:
+  40              	.LFB123:
+  41              		.file 1 "Src/motionControl/motors.c"
+   1:Src/motionControl/motors.c **** #include "motionControl/motors.h"
+   2:Src/motionControl/motors.c **** 
+   3:Src/motionControl/motors.c **** void motor_left_drive(int16_t value) {
+  42              		.loc 1 3 0
+  43              		.cfi_startproc
+  44              		@ args = 0, pretend = 0, frame = 8
+  45              		@ frame_needed = 1, uses_anonymous_args = 0
+  46 0000 B0B5     		push	{r4, r5, r7, lr}
+  47              	.LCFI0:
+  48              		.cfi_def_cfa_offset 16
+  49              		.cfi_offset 4, -16
+  50              		.cfi_offset 5, -12
+  51              		.cfi_offset 7, -8
+  52              		.cfi_offset 14, -4
+  53 0002 82B0     		sub	sp, sp, #8
+  54              	.LCFI1:
+  55              		.cfi_def_cfa_offset 24
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s 			page 2
+
+
+  56 0004 00AF     		add	r7, sp, #0
+  57              	.LCFI2:
+  58              		.cfi_def_cfa_register 7
+  59 0006 0346     		mov	r3, r0
+  60 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+   4:Src/motionControl/motors.c ****     if (value > 0) {
+  61              		.loc 1 4 0
+  62 000a B7F90630 		ldrsh	r3, [r7, #6]
+  63 000e 002B     		cmp	r3, #0
+  64 0010 04DD     		ble	.L2
+   5:Src/motionControl/motors.c ****         gpio_digitalWrite(&rightMotDir, HIGH);
+  65              		.loc 1 5 0
+  66 0012 0F48     		ldr	r0, .L4
+  67 0014 0121     		movs	r1, #1
+  68 0016 FFF7FEFF 		bl	gpio_digitalWrite
+  69 001a 03E0     		b	.L3
+  70              	.L2:
+   6:Src/motionControl/motors.c ****     } else {
+   7:Src/motionControl/motors.c ****         gpio_digitalWrite(&leftMotDir, LOW);
+  71              		.loc 1 7 0
+  72 001c 0D48     		ldr	r0, .L4+4
+  73 001e 0021     		movs	r1, #0
+  74 0020 FFF7FEFF 		bl	gpio_digitalWrite
+  75              	.L3:
+   8:Src/motionControl/motors.c ****     }
+   9:Src/motionControl/motors.c **** 
+  10:Src/motionControl/motors.c ****     pwm_left_set(fabs(value));
+  76              		.loc 1 10 0
+  77 0024 B7F90630 		ldrsh	r3, [r7, #6]
+  78 0028 1846     		mov	r0, r3
+  79 002a FFF7FEFF 		bl	__aeabi_i2d
+  80 002e 0246     		mov	r2, r0
+  81 0030 0B46     		mov	r3, r1
+  82 0032 1446     		mov	r4, r2
+  83 0034 23F00045 		bic	r5, r3, #-2147483648
+  84 0038 2046     		mov	r0, r4
+  85 003a 2946     		mov	r1, r5
+  86 003c FFF7FEFF 		bl	__aeabi_d2uiz
+  87 0040 0346     		mov	r3, r0
+  88 0042 9BB2     		uxth	r3, r3
+  89 0044 1846     		mov	r0, r3
+  90 0046 FFF7FEFF 		bl	pwm_left_set
+  11:Src/motionControl/motors.c **** }
+  91              		.loc 1 11 0
+  92 004a 0837     		adds	r7, r7, #8
+  93              	.LCFI3:
+  94              		.cfi_def_cfa_offset 16
+  95 004c BD46     		mov	sp, r7
+  96              	.LCFI4:
+  97              		.cfi_def_cfa_register 13
+  98              		@ sp needed
+  99 004e B0BD     		pop	{r4, r5, r7, pc}
+ 100              	.L5:
+ 101              		.align	2
+ 102              	.L4:
+ 103 0050 00000000 		.word	rightMotDir
+ 104 0054 00000000 		.word	leftMotDir
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s 			page 3
+
+
+ 105              		.cfi_endproc
+ 106              	.LFE123:
+ 108              		.section	.text.motor_left_stop,"ax",%progbits
+ 109              		.align	2
+ 110              		.global	motor_left_stop
+ 111              		.thumb
+ 112              		.thumb_func
+ 114              	motor_left_stop:
+ 115              	.LFB124:
+  12:Src/motionControl/motors.c **** 
+  13:Src/motionControl/motors.c **** void motor_left_stop() {
+ 116              		.loc 1 13 0
+ 117              		.cfi_startproc
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 1, uses_anonymous_args = 0
+ 120              		@ link register save eliminated.
+ 121 0000 80B4     		push	{r7}
+ 122              	.LCFI5:
+ 123              		.cfi_def_cfa_offset 4
+ 124              		.cfi_offset 7, -4
+ 125 0002 00AF     		add	r7, sp, #0
+ 126              	.LCFI6:
+ 127              		.cfi_def_cfa_register 7
+  14:Src/motionControl/motors.c **** 
+  15:Src/motionControl/motors.c **** }
+ 128              		.loc 1 15 0
+ 129 0004 BD46     		mov	sp, r7
+ 130              	.LCFI7:
+ 131              		.cfi_def_cfa_register 13
+ 132              		@ sp needed
+ 133 0006 5DF8047B 		ldr	r7, [sp], #4
+ 134              	.LCFI8:
+ 135              		.cfi_restore 7
+ 136              		.cfi_def_cfa_offset 0
+ 137 000a 7047     		bx	lr
+ 138              		.cfi_endproc
+ 139              	.LFE124:
+ 141              		.section	.text.motor_right_drive,"ax",%progbits
+ 142              		.align	2
+ 143              		.global	motor_right_drive
+ 144              		.thumb
+ 145              		.thumb_func
+ 147              	motor_right_drive:
+ 148              	.LFB125:
+  16:Src/motionControl/motors.c **** 
+  17:Src/motionControl/motors.c **** void motor_right_drive(int16_t value) {
+ 149              		.loc 1 17 0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 8
+ 152              		@ frame_needed = 1, uses_anonymous_args = 0
+ 153 0000 B0B5     		push	{r4, r5, r7, lr}
+ 154              	.LCFI9:
+ 155              		.cfi_def_cfa_offset 16
+ 156              		.cfi_offset 4, -16
+ 157              		.cfi_offset 5, -12
+ 158              		.cfi_offset 7, -8
+ 159              		.cfi_offset 14, -4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s 			page 4
+
+
+ 160 0002 82B0     		sub	sp, sp, #8
+ 161              	.LCFI10:
+ 162              		.cfi_def_cfa_offset 24
+ 163 0004 00AF     		add	r7, sp, #0
+ 164              	.LCFI11:
+ 165              		.cfi_def_cfa_register 7
+ 166 0006 0346     		mov	r3, r0
+ 167 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+  18:Src/motionControl/motors.c ****     if (value > 0) {
+ 168              		.loc 1 18 0
+ 169 000a B7F90630 		ldrsh	r3, [r7, #6]
+ 170 000e 002B     		cmp	r3, #0
+ 171 0010 04DD     		ble	.L8
+  19:Src/motionControl/motors.c ****         gpio_digitalWrite(&rightMotDir, HIGH);
+ 172              		.loc 1 19 0
+ 173 0012 0F48     		ldr	r0, .L10
+ 174 0014 0121     		movs	r1, #1
+ 175 0016 FFF7FEFF 		bl	gpio_digitalWrite
+ 176 001a 03E0     		b	.L9
+ 177              	.L8:
+  20:Src/motionControl/motors.c ****     } else {
+  21:Src/motionControl/motors.c ****         gpio_digitalWrite(&rightMotDir, LOW);
+ 178              		.loc 1 21 0
+ 179 001c 0C48     		ldr	r0, .L10
+ 180 001e 0021     		movs	r1, #0
+ 181 0020 FFF7FEFF 		bl	gpio_digitalWrite
+ 182              	.L9:
+  22:Src/motionControl/motors.c ****     }
+  23:Src/motionControl/motors.c **** 
+  24:Src/motionControl/motors.c ****     pwm_right_set(fabs(value));
+ 183              		.loc 1 24 0
+ 184 0024 B7F90630 		ldrsh	r3, [r7, #6]
+ 185 0028 1846     		mov	r0, r3
+ 186 002a FFF7FEFF 		bl	__aeabi_i2d
+ 187 002e 0246     		mov	r2, r0
+ 188 0030 0B46     		mov	r3, r1
+ 189 0032 1446     		mov	r4, r2
+ 190 0034 23F00045 		bic	r5, r3, #-2147483648
+ 191 0038 2046     		mov	r0, r4
+ 192 003a 2946     		mov	r1, r5
+ 193 003c FFF7FEFF 		bl	__aeabi_d2uiz
+ 194 0040 0346     		mov	r3, r0
+ 195 0042 9BB2     		uxth	r3, r3
+ 196 0044 1846     		mov	r0, r3
+ 197 0046 FFF7FEFF 		bl	pwm_right_set
+  25:Src/motionControl/motors.c **** }
+ 198              		.loc 1 25 0
+ 199 004a 0837     		adds	r7, r7, #8
+ 200              	.LCFI12:
+ 201              		.cfi_def_cfa_offset 16
+ 202 004c BD46     		mov	sp, r7
+ 203              	.LCFI13:
+ 204              		.cfi_def_cfa_register 13
+ 205              		@ sp needed
+ 206 004e B0BD     		pop	{r4, r5, r7, pc}
+ 207              	.L11:
+ 208              		.align	2
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s 			page 5
+
+
+ 209              	.L10:
+ 210 0050 00000000 		.word	rightMotDir
+ 211              		.cfi_endproc
+ 212              	.LFE125:
+ 214              		.section	.text.motor_right_stop,"ax",%progbits
+ 215              		.align	2
+ 216              		.global	motor_right_stop
+ 217              		.thumb
+ 218              		.thumb_func
+ 220              	motor_right_stop:
+ 221              	.LFB126:
+  26:Src/motionControl/motors.c **** 
+  27:Src/motionControl/motors.c **** void motor_right_stop() {
+ 222              		.loc 1 27 0
+ 223              		.cfi_startproc
+ 224              		@ args = 0, pretend = 0, frame = 0
+ 225              		@ frame_needed = 1, uses_anonymous_args = 0
+ 226              		@ link register save eliminated.
+ 227 0000 80B4     		push	{r7}
+ 228              	.LCFI14:
+ 229              		.cfi_def_cfa_offset 4
+ 230              		.cfi_offset 7, -4
+ 231 0002 00AF     		add	r7, sp, #0
+ 232              	.LCFI15:
+ 233              		.cfi_def_cfa_register 7
+  28:Src/motionControl/motors.c ****     
+  29:Src/motionControl/motors.c **** }
+ 234              		.loc 1 29 0
+ 235 0004 BD46     		mov	sp, r7
+ 236              	.LCFI16:
+ 237              		.cfi_def_cfa_register 13
+ 238              		@ sp needed
+ 239 0006 5DF8047B 		ldr	r7, [sp], #4
+ 240              	.LCFI17:
+ 241              		.cfi_restore 7
+ 242              		.cfi_def_cfa_offset 0
+ 243 000a 7047     		bx	lr
+ 244              		.cfi_endproc
+ 245              	.LFE126:
+ 247              		.text
+ 248              	.Letext0:
+ 249              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 250              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 251              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 252              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 253              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ 254              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 255              		.file 8 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 256              		.file 9 "Inc/peripherals/gpio.h"
+ 257              		.file 10 "Drivers/CMSIS/Include/core_cm4.h"
+ 258              		.file 11 "Inc/peripherals/pwm.h"
+ 259              		.file 12 "Inc/peripherals/encoders.h"
+ 260              		.file 13 "Inc/motionControl/control.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 motors.c
+                            *COM*:0000000000000004 tim16
+                            *COM*:0000000000000004 tim17
+                            *COM*:0000000000000004 tim2
+                            *COM*:0000000000000004 tim3
+                            *COM*:0000000000000002 previousLeftTicks
+                            *COM*:0000000000000002 previousRightTicks
+                            *COM*:0000000000000002 leftVel
+                            *COM*:0000000000000002 rightVel
+                            *COM*:0000000000000002 leftPos
+                            *COM*:0000000000000002 rightPos
+                            *COM*:0000000000000004 lastIter
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:34     .text.motor_left_drive:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:39     .text.motor_left_drive:0000000000000000 motor_left_drive
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:103    .text.motor_left_drive:0000000000000050 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:109    .text.motor_left_stop:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:114    .text.motor_left_stop:0000000000000000 motor_left_stop
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:142    .text.motor_right_drive:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:147    .text.motor_right_drive:0000000000000000 motor_right_drive
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:210    .text.motor_right_drive:0000000000000050 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:215    .text.motor_right_stop:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccirbbRh.s:220    .text.motor_right_stop:0000000000000000 motor_right_stop
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_i2d
+__aeabi_d2uiz
+gpio_digitalWrite
+pwm_left_set
+rightMotDir
+leftMotDir
+pwm_right_set

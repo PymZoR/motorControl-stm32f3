@@ -1,0 +1,339 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"PID.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.section	.text.pid_init,"ax",%progbits
+  21              		.align	2
+  22              		.global	pid_init
+  23              		.thumb
+  24              		.thumb_func
+  26              	pid_init:
+  27              	.LFB123:
+  28              		.file 1 "Src/motionControl/PID.c"
+   1:Src/motionControl/PID.c **** #include "motionControl/PID.h"
+   2:Src/motionControl/PID.c **** 
+   3:Src/motionControl/PID.c **** void pid_init(PID* pid) {
+  29              		.loc 1 3 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34 0000 80B4     		push	{r7}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 7, -4
+  38 0002 83B0     		sub	sp, sp, #12
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 16
+  41 0004 00AF     		add	r7, sp, #0
+  42              	.LCFI2:
+  43              		.cfi_def_cfa_register 7
+  44 0006 7860     		str	r0, [r7, #4]
+   4:Src/motionControl/PID.c ****     pid->sumError  = 0;
+  45              		.loc 1 4 0
+  46 0008 7968     		ldr	r1, [r7, #4]
+  47 000a 4FF00002 		mov	r2, #0
+  48 000e 4FF00003 		mov	r3, #0
+  49 0012 C1E90623 		strd	r2, [r1, #24]
+   5:Src/motionControl/PID.c ****     pid->lastInput = 0;
+  50              		.loc 1 5 0
+  51 0016 7968     		ldr	r1, [r7, #4]
+  52 0018 4FF00002 		mov	r2, #0
+  53 001c 4FF00003 		mov	r3, #0
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 2
+
+
+  54 0020 C1E90823 		strd	r2, [r1, #32]
+   6:Src/motionControl/PID.c **** }
+  55              		.loc 1 6 0
+  56 0024 0C37     		adds	r7, r7, #12
+  57              	.LCFI3:
+  58              		.cfi_def_cfa_offset 4
+  59 0026 BD46     		mov	sp, r7
+  60              	.LCFI4:
+  61              		.cfi_def_cfa_register 13
+  62              		@ sp needed
+  63 0028 5DF8047B 		ldr	r7, [sp], #4
+  64              	.LCFI5:
+  65              		.cfi_restore 7
+  66              		.cfi_def_cfa_offset 0
+  67 002c 7047     		bx	lr
+  68              		.cfi_endproc
+  69              	.LFE123:
+  71 002e 00BF     		.section	.text.pid_config,"ax",%progbits
+  72              		.align	2
+  73              		.global	pid_config
+  74              		.thumb
+  75              		.thumb_func
+  77              	pid_config:
+  78              	.LFB124:
+   7:Src/motionControl/PID.c **** 
+   8:Src/motionControl/PID.c **** void pid_config(PID* pid, double kp, double ki, double kd) {
+  79              		.loc 1 8 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 32
+  82              		@ frame_needed = 1, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 80B4     		push	{r7}
+  85              	.LCFI6:
+  86              		.cfi_def_cfa_offset 4
+  87              		.cfi_offset 7, -4
+  88 0002 89B0     		sub	sp, sp, #36
+  89              	.LCFI7:
+  90              		.cfi_def_cfa_offset 40
+  91 0004 00AF     		add	r7, sp, #0
+  92              	.LCFI8:
+  93              		.cfi_def_cfa_register 7
+  94 0006 F861     		str	r0, [r7, #28]
+  95 0008 87ED040B 		fstd	d0, [r7, #16]
+  96 000c 87ED021B 		fstd	d1, [r7, #8]
+  97 0010 87ED002B 		fstd	d2, [r7]
+   9:Src/motionControl/PID.c ****     pid->kp = kp;
+  98              		.loc 1 9 0
+  99 0014 F969     		ldr	r1, [r7, #28]
+ 100 0016 D7E90423 		ldrd	r2, [r7, #16]
+ 101 001a C1E90023 		strd	r2, [r1]
+  10:Src/motionControl/PID.c ****     pid->ki = ki;
+ 102              		.loc 1 10 0
+ 103 001e F969     		ldr	r1, [r7, #28]
+ 104 0020 D7E90223 		ldrd	r2, [r7, #8]
+ 105 0024 C1E90223 		strd	r2, [r1, #8]
+  11:Src/motionControl/PID.c ****     pid->kd = kd;
+ 106              		.loc 1 11 0
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 3
+
+
+ 107 0028 F969     		ldr	r1, [r7, #28]
+ 108 002a D7E90023 		ldrd	r2, [r7]
+ 109 002e C1E90423 		strd	r2, [r1, #16]
+  12:Src/motionControl/PID.c **** }
+ 110              		.loc 1 12 0
+ 111 0032 2437     		adds	r7, r7, #36
+ 112              	.LCFI9:
+ 113              		.cfi_def_cfa_offset 4
+ 114 0034 BD46     		mov	sp, r7
+ 115              	.LCFI10:
+ 116              		.cfi_def_cfa_register 13
+ 117              		@ sp needed
+ 118 0036 5DF8047B 		ldr	r7, [sp], #4
+ 119              	.LCFI11:
+ 120              		.cfi_restore 7
+ 121              		.cfi_def_cfa_offset 0
+ 122 003a 7047     		bx	lr
+ 123              		.cfi_endproc
+ 124              	.LFE124:
+ 126              		.global	__aeabi_i2d
+ 127              		.global	__aeabi_dadd
+ 128              		.global	__aeabi_dsub
+ 129              		.global	__aeabi_d2uiz
+ 130              		.global	__aeabi_dmul
+ 131              		.global	__aeabi_ui2d
+ 132              		.global	__aeabi_d2iz
+ 133              		.section	.text.pid_calcul,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	pid_calcul
+ 136              		.thumb
+ 137              		.thumb_func
+ 139              	pid_calcul:
+ 140              	.LFB125:
+  13:Src/motionControl/PID.c **** 
+  14:Src/motionControl/PID.c **** int pid_calcul(PID* pid, int error, int input) {
+ 141              		.loc 1 14 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 24
+ 144              		@ frame_needed = 1, uses_anonymous_args = 0
+ 145 0000 2DE9B04F 		push	{r4, r5, r7, r8, r9, r10, fp, lr}
+ 146              	.LCFI12:
+ 147              		.cfi_def_cfa_offset 32
+ 148              		.cfi_offset 4, -32
+ 149              		.cfi_offset 5, -28
+ 150              		.cfi_offset 7, -24
+ 151              		.cfi_offset 8, -20
+ 152              		.cfi_offset 9, -16
+ 153              		.cfi_offset 10, -12
+ 154              		.cfi_offset 11, -8
+ 155              		.cfi_offset 14, -4
+ 156 0004 86B0     		sub	sp, sp, #24
+ 157              	.LCFI13:
+ 158              		.cfi_def_cfa_offset 56
+ 159 0006 00AF     		add	r7, sp, #0
+ 160              	.LCFI14:
+ 161              		.cfi_def_cfa_register 7
+ 162 0008 F860     		str	r0, [r7, #12]
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 4
+
+
+ 163 000a B960     		str	r1, [r7, #8]
+ 164 000c 7A60     		str	r2, [r7, #4]
+  15:Src/motionControl/PID.c ****     // Integral term
+  16:Src/motionControl/PID.c ****     pid->sumError += error;
+ 165              		.loc 1 16 0
+ 166 000e FB68     		ldr	r3, [r7, #12]
+ 167 0010 D3E90645 		ldrd	r4, [r3, #24]
+ 168 0014 B868     		ldr	r0, [r7, #8]
+ 169 0016 FFF7FEFF 		bl	__aeabi_i2d
+ 170 001a 0246     		mov	r2, r0
+ 171 001c 0B46     		mov	r3, r1
+ 172 001e 2046     		mov	r0, r4
+ 173 0020 2946     		mov	r1, r5
+ 174 0022 FFF7FEFF 		bl	__aeabi_dadd
+ 175 0026 0246     		mov	r2, r0
+ 176 0028 0B46     		mov	r3, r1
+ 177 002a F968     		ldr	r1, [r7, #12]
+ 178 002c C1E90623 		strd	r2, [r1, #24]
+  17:Src/motionControl/PID.c **** 
+  18:Src/motionControl/PID.c ****     // Derivative term with anti-windup
+  19:Src/motionControl/PID.c ****     unsigned long dInput = pid->lastInput - input;
+ 179              		.loc 1 19 0
+ 180 0030 FB68     		ldr	r3, [r7, #12]
+ 181 0032 D3E90845 		ldrd	r4, [r3, #32]
+ 182 0036 7868     		ldr	r0, [r7, #4]
+ 183 0038 FFF7FEFF 		bl	__aeabi_i2d
+ 184 003c 0246     		mov	r2, r0
+ 185 003e 0B46     		mov	r3, r1
+ 186 0040 2046     		mov	r0, r4
+ 187 0042 2946     		mov	r1, r5
+ 188 0044 FFF7FEFF 		bl	__aeabi_dsub
+ 189 0048 0246     		mov	r2, r0
+ 190 004a 0B46     		mov	r3, r1
+ 191 004c 1046     		mov	r0, r2
+ 192 004e 1946     		mov	r1, r3
+ 193 0050 FFF7FEFF 		bl	__aeabi_d2uiz
+ 194 0054 0346     		mov	r3, r0
+ 195 0056 7B61     		str	r3, [r7, #20]
+  20:Src/motionControl/PID.c ****     pid->lastInput = input;
+ 196              		.loc 1 20 0
+ 197 0058 7868     		ldr	r0, [r7, #4]
+ 198 005a FFF7FEFF 		bl	__aeabi_i2d
+ 199 005e 0246     		mov	r2, r0
+ 200 0060 0B46     		mov	r3, r1
+ 201 0062 F968     		ldr	r1, [r7, #12]
+ 202 0064 C1E90823 		strd	r2, [r1, #32]
+  21:Src/motionControl/PID.c **** 
+  22:Src/motionControl/PID.c ****     int out = pid->kp * (error + pid->ki * pid->sumError + pid->kd * dInput);
+ 203              		.loc 1 22 0
+ 204 0068 FB68     		ldr	r3, [r7, #12]
+ 205 006a D3E90045 		ldrd	r4, [r3]
+ 206 006e B868     		ldr	r0, [r7, #8]
+ 207 0070 FFF7FEFF 		bl	__aeabi_i2d
+ 208 0074 8046     		mov	r8, r0
+ 209 0076 8946     		mov	r9, r1
+ 210 0078 FB68     		ldr	r3, [r7, #12]
+ 211 007a D3E90201 		ldrd	r0, [r3, #8]
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 5
+
+
+ 212 007e FB68     		ldr	r3, [r7, #12]
+ 213 0080 D3E90623 		ldrd	r2, [r3, #24]
+ 214 0084 FFF7FEFF 		bl	__aeabi_dmul
+ 215 0088 0246     		mov	r2, r0
+ 216 008a 0B46     		mov	r3, r1
+ 217 008c 4046     		mov	r0, r8
+ 218 008e 4946     		mov	r1, r9
+ 219 0090 FFF7FEFF 		bl	__aeabi_dadd
+ 220 0094 0246     		mov	r2, r0
+ 221 0096 0B46     		mov	r3, r1
+ 222 0098 9246     		mov	r10, r2
+ 223 009a 9B46     		mov	fp, r3
+ 224 009c FB68     		ldr	r3, [r7, #12]
+ 225 009e D3E90489 		ldrd	r8, [r3, #16]
+ 226 00a2 7869     		ldr	r0, [r7, #20]
+ 227 00a4 FFF7FEFF 		bl	__aeabi_ui2d
+ 228 00a8 0246     		mov	r2, r0
+ 229 00aa 0B46     		mov	r3, r1
+ 230 00ac 4046     		mov	r0, r8
+ 231 00ae 4946     		mov	r1, r9
+ 232 00b0 FFF7FEFF 		bl	__aeabi_dmul
+ 233 00b4 0246     		mov	r2, r0
+ 234 00b6 0B46     		mov	r3, r1
+ 235 00b8 5046     		mov	r0, r10
+ 236 00ba 5946     		mov	r1, fp
+ 237 00bc FFF7FEFF 		bl	__aeabi_dadd
+ 238 00c0 0246     		mov	r2, r0
+ 239 00c2 0B46     		mov	r3, r1
+ 240 00c4 2046     		mov	r0, r4
+ 241 00c6 2946     		mov	r1, r5
+ 242 00c8 FFF7FEFF 		bl	__aeabi_dmul
+ 243 00cc 0246     		mov	r2, r0
+ 244 00ce 0B46     		mov	r3, r1
+ 245 00d0 1046     		mov	r0, r2
+ 246 00d2 1946     		mov	r1, r3
+ 247 00d4 FFF7FEFF 		bl	__aeabi_d2iz
+ 248 00d8 0346     		mov	r3, r0
+ 249 00da 3B61     		str	r3, [r7, #16]
+  23:Src/motionControl/PID.c ****     return out;
+ 250              		.loc 1 23 0
+ 251 00dc 3B69     		ldr	r3, [r7, #16]
+  24:Src/motionControl/PID.c **** }
+ 252              		.loc 1 24 0
+ 253 00de 1846     		mov	r0, r3
+ 254 00e0 1837     		adds	r7, r7, #24
+ 255              	.LCFI15:
+ 256              		.cfi_def_cfa_offset 32
+ 257 00e2 BD46     		mov	sp, r7
+ 258              	.LCFI16:
+ 259              		.cfi_def_cfa_register 13
+ 260              		@ sp needed
+ 261 00e4 BDE8B08F 		pop	{r4, r5, r7, r8, r9, r10, fp, pc}
+ 262              		.cfi_endproc
+ 263              	.LFE125:
+ 265              		.comm	leftVelPID,40,8
+ 266              		.comm	leftPosPID,40,8
+ 267              		.comm	rightVelPID,40,8
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 6
+
+
+ 268              		.comm	rightPosPID,40,8
+ 269              		.comm	distancePID,40,8
+ 270              		.comm	anglePID,40,8
+ 271              		.text
+ 272              	.Letext0:
+ 273              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 274              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 275              		.file 4 "Inc/motionControl/PID.h"
+ 276              		.file 5 "Drivers/CMSIS/Include/core_cm4.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 PID.c
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s:21     .text.pid_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s:26     .text.pid_init:0000000000000000 pid_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s:72     .text.pid_config:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s:77     .text.pid_config:0000000000000000 pid_config
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s:134    .text.pid_calcul:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccsHV2Xl.s:139    .text.pid_calcul:0000000000000000 pid_calcul
+                            *COM*:0000000000000028 leftVelPID
+                            *COM*:0000000000000028 leftPosPID
+                            *COM*:0000000000000028 rightVelPID
+                            *COM*:0000000000000028 rightPosPID
+                            *COM*:0000000000000028 distancePID
+                            *COM*:0000000000000028 anglePID
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_i2d
+__aeabi_dadd
+__aeabi_dsub
+__aeabi_d2uiz
+__aeabi_dmul
+__aeabi_ui2d
+__aeabi_d2iz

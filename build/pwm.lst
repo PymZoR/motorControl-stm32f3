@@ -1,0 +1,248 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"pwm.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	tim16,4,4
+  21              		.comm	tim17,4,4
+  22              		.section	.text.pwm_init,"ax",%progbits
+  23              		.align	2
+  24              		.global	pwm_init
+  25              		.thumb
+  26              		.thumb_func
+  28              	pwm_init:
+  29              	.LFB123:
+  30              		.file 1 "Src/peripherals/pwm.c"
+   1:Src/peripherals/pwm.c **** #include "peripherals/pwm.h"
+   2:Src/peripherals/pwm.c **** 
+   3:Src/peripherals/pwm.c **** void pwm_init(TIM_HandleTypeDef* htim16_, TIM_HandleTypeDef* htim17_) {
+  31              		.loc 1 3 0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 8
+  34              		@ frame_needed = 1, uses_anonymous_args = 0
+  35 0000 80B5     		push	{r7, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 82B0     		sub	sp, sp, #8
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 16
+  43 0004 00AF     		add	r7, sp, #0
+  44              	.LCFI2:
+  45              		.cfi_def_cfa_register 7
+  46 0006 7860     		str	r0, [r7, #4]
+  47 0008 3960     		str	r1, [r7]
+   4:Src/peripherals/pwm.c ****     tim16 = htim16_;
+  48              		.loc 1 4 0
+  49 000a 0D4A     		ldr	r2, .L2
+  50 000c 7B68     		ldr	r3, [r7, #4]
+  51 000e 1360     		str	r3, [r2]
+   5:Src/peripherals/pwm.c ****     tim17 = htim17_;
+  52              		.loc 1 5 0
+  53 0010 0C4A     		ldr	r2, .L2+4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s 			page 2
+
+
+  54 0012 3B68     		ldr	r3, [r7]
+  55 0014 1360     		str	r3, [r2]
+   6:Src/peripherals/pwm.c **** 
+   7:Src/peripherals/pwm.c ****     pwm_left_set(0);
+  56              		.loc 1 7 0
+  57 0016 0020     		movs	r0, #0
+  58 0018 FFF7FEFF 		bl	pwm_left_set
+   8:Src/peripherals/pwm.c ****     pwm_right_set(0);
+  59              		.loc 1 8 0
+  60 001c 0020     		movs	r0, #0
+  61 001e FFF7FEFF 		bl	pwm_right_set
+   9:Src/peripherals/pwm.c **** 
+  10:Src/peripherals/pwm.c ****     HAL_TIM_PWM_Start(tim16,TIM_CHANNEL_1); 
+  62              		.loc 1 10 0
+  63 0022 074B     		ldr	r3, .L2
+  64 0024 1B68     		ldr	r3, [r3]
+  65 0026 1846     		mov	r0, r3
+  66 0028 0021     		movs	r1, #0
+  67 002a FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  11:Src/peripherals/pwm.c ****     HAL_TIM_PWM_Start(tim17,TIM_CHANNEL_1); 
+  68              		.loc 1 11 0
+  69 002e 054B     		ldr	r3, .L2+4
+  70 0030 1B68     		ldr	r3, [r3]
+  71 0032 1846     		mov	r0, r3
+  72 0034 0021     		movs	r1, #0
+  73 0036 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  12:Src/peripherals/pwm.c **** }
+  74              		.loc 1 12 0
+  75 003a 0837     		adds	r7, r7, #8
+  76              	.LCFI3:
+  77              		.cfi_def_cfa_offset 8
+  78 003c BD46     		mov	sp, r7
+  79              	.LCFI4:
+  80              		.cfi_def_cfa_register 13
+  81              		@ sp needed
+  82 003e 80BD     		pop	{r7, pc}
+  83              	.L3:
+  84              		.align	2
+  85              	.L2:
+  86 0040 00000000 		.word	tim16
+  87 0044 00000000 		.word	tim17
+  88              		.cfi_endproc
+  89              	.LFE123:
+  91              		.section	.text.pwm_left_set,"ax",%progbits
+  92              		.align	2
+  93              		.global	pwm_left_set
+  94              		.thumb
+  95              		.thumb_func
+  97              	pwm_left_set:
+  98              	.LFB124:
+  13:Src/peripherals/pwm.c **** 
+  14:Src/peripherals/pwm.c **** void pwm_left_set(uint16_t value) {
+  99              		.loc 1 14 0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 8
+ 102              		@ frame_needed = 1, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s 			page 3
+
+
+ 104 0000 80B4     		push	{r7}
+ 105              	.LCFI5:
+ 106              		.cfi_def_cfa_offset 4
+ 107              		.cfi_offset 7, -4
+ 108 0002 83B0     		sub	sp, sp, #12
+ 109              	.LCFI6:
+ 110              		.cfi_def_cfa_offset 16
+ 111 0004 00AF     		add	r7, sp, #0
+ 112              	.LCFI7:
+ 113              		.cfi_def_cfa_register 7
+ 114 0006 0346     		mov	r3, r0
+ 115 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+  15:Src/peripherals/pwm.c ****     __HAL_TIM_SET_COMPARE(tim17, TIM_CHANNEL_1, value);
+ 116              		.loc 1 15 0
+ 117 000a 054B     		ldr	r3, .L5
+ 118 000c 1B68     		ldr	r3, [r3]
+ 119 000e 1B68     		ldr	r3, [r3]
+ 120 0010 FA88     		ldrh	r2, [r7, #6]
+ 121 0012 5A63     		str	r2, [r3, #52]
+  16:Src/peripherals/pwm.c **** }
+ 122              		.loc 1 16 0
+ 123 0014 0C37     		adds	r7, r7, #12
+ 124              	.LCFI8:
+ 125              		.cfi_def_cfa_offset 4
+ 126 0016 BD46     		mov	sp, r7
+ 127              	.LCFI9:
+ 128              		.cfi_def_cfa_register 13
+ 129              		@ sp needed
+ 130 0018 5DF8047B 		ldr	r7, [sp], #4
+ 131              	.LCFI10:
+ 132              		.cfi_restore 7
+ 133              		.cfi_def_cfa_offset 0
+ 134 001c 7047     		bx	lr
+ 135              	.L6:
+ 136 001e 00BF     		.align	2
+ 137              	.L5:
+ 138 0020 00000000 		.word	tim17
+ 139              		.cfi_endproc
+ 140              	.LFE124:
+ 142              		.section	.text.pwm_right_set,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	pwm_right_set
+ 145              		.thumb
+ 146              		.thumb_func
+ 148              	pwm_right_set:
+ 149              	.LFB125:
+  17:Src/peripherals/pwm.c **** 
+  18:Src/peripherals/pwm.c **** void pwm_right_set(uint16_t value) {
+ 150              		.loc 1 18 0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 8
+ 153              		@ frame_needed = 1, uses_anonymous_args = 0
+ 154              		@ link register save eliminated.
+ 155 0000 80B4     		push	{r7}
+ 156              	.LCFI11:
+ 157              		.cfi_def_cfa_offset 4
+ 158              		.cfi_offset 7, -4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s 			page 4
+
+
+ 159 0002 83B0     		sub	sp, sp, #12
+ 160              	.LCFI12:
+ 161              		.cfi_def_cfa_offset 16
+ 162 0004 00AF     		add	r7, sp, #0
+ 163              	.LCFI13:
+ 164              		.cfi_def_cfa_register 7
+ 165 0006 0346     		mov	r3, r0
+ 166 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+  19:Src/peripherals/pwm.c ****     __HAL_TIM_SET_COMPARE(tim16, TIM_CHANNEL_1, value);
+ 167              		.loc 1 19 0
+ 168 000a 054B     		ldr	r3, .L8
+ 169 000c 1B68     		ldr	r3, [r3]
+ 170 000e 1B68     		ldr	r3, [r3]
+ 171 0010 FA88     		ldrh	r2, [r7, #6]
+ 172 0012 5A63     		str	r2, [r3, #52]
+  20:Src/peripherals/pwm.c **** }
+ 173              		.loc 1 20 0
+ 174 0014 0C37     		adds	r7, r7, #12
+ 175              	.LCFI14:
+ 176              		.cfi_def_cfa_offset 4
+ 177 0016 BD46     		mov	sp, r7
+ 178              	.LCFI15:
+ 179              		.cfi_def_cfa_register 13
+ 180              		@ sp needed
+ 181 0018 5DF8047B 		ldr	r7, [sp], #4
+ 182              	.LCFI16:
+ 183              		.cfi_restore 7
+ 184              		.cfi_def_cfa_offset 0
+ 185 001c 7047     		bx	lr
+ 186              	.L9:
+ 187 001e 00BF     		.align	2
+ 188              	.L8:
+ 189 0020 00000000 		.word	tim16
+ 190              		.cfi_endproc
+ 191              	.LFE125:
+ 193              		.text
+ 194              	.Letext0:
+ 195              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 196              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 197              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 198              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 199              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 200              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h"
+ 201              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 202              		.file 9 "Inc/peripherals/pwm.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pwm.c
+                            *COM*:0000000000000004 tim16
+                            *COM*:0000000000000004 tim17
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:23     .text.pwm_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:28     .text.pwm_init:0000000000000000 pwm_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:97     .text.pwm_left_set:0000000000000000 pwm_left_set
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:148    .text.pwm_right_set:0000000000000000 pwm_right_set
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:86     .text.pwm_init:0000000000000040 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:92     .text.pwm_left_set:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:138    .text.pwm_left_set:0000000000000020 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:143    .text.pwm_right_set:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//cc4AFtRg.s:189    .text.pwm_right_set:0000000000000020 $d
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+HAL_TIM_PWM_Start

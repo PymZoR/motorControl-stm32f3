@@ -1,0 +1,167 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"gpio.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.section	.text.gpio_init,"ax",%progbits
+  21              		.align	2
+  22              		.global	gpio_init
+  23              		.thumb
+  24              		.thumb_func
+  26              	gpio_init:
+  27              	.LFB123:
+  28              		.file 1 "Src/peripherals/gpio.c"
+   1:Src/peripherals/gpio.c **** #include "peripherals/gpio.h"
+   2:Src/peripherals/gpio.c **** 
+   3:Src/peripherals/gpio.c **** void gpio_init() {
+  29              		.loc 1 3 0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34 0000 80B4     		push	{r7}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 7, -4
+  38 0002 00AF     		add	r7, sp, #0
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_register 7
+   4:Src/peripherals/gpio.c ****     leftMotDir.port      = MOT_L_DIR_GPIO_Port;
+  41              		.loc 1 4 0
+  42 0004 074B     		ldr	r3, .L2
+  43 0006 084A     		ldr	r2, .L2+4
+  44 0008 1A60     		str	r2, [r3]
+   5:Src/peripherals/gpio.c ****     leftMotDir.pinNumber = MOT_L_DIR_Pin;
+  45              		.loc 1 5 0
+  46 000a 064B     		ldr	r3, .L2
+  47 000c 8022     		movs	r2, #128
+  48 000e 9A80     		strh	r2, [r3, #4]	@ movhi
+   6:Src/peripherals/gpio.c ****     
+   7:Src/peripherals/gpio.c ****     rightMotDir.port      = MOT_R_DIR_GPIO_Port;
+  49              		.loc 1 7 0
+  50 0010 064B     		ldr	r3, .L2+8
+  51 0012 054A     		ldr	r2, .L2+4
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s 			page 2
+
+
+  52 0014 1A60     		str	r2, [r3]
+   8:Src/peripherals/gpio.c ****     rightMotDir.pinNumber = MOT_R_DIR_Pin;
+  53              		.loc 1 8 0
+  54 0016 054B     		ldr	r3, .L2+8
+  55 0018 4022     		movs	r2, #64
+  56 001a 9A80     		strh	r2, [r3, #4]	@ movhi
+   9:Src/peripherals/gpio.c **** }
+  57              		.loc 1 9 0
+  58 001c BD46     		mov	sp, r7
+  59              	.LCFI2:
+  60              		.cfi_def_cfa_register 13
+  61              		@ sp needed
+  62 001e 5DF8047B 		ldr	r7, [sp], #4
+  63              	.LCFI3:
+  64              		.cfi_restore 7
+  65              		.cfi_def_cfa_offset 0
+  66 0022 7047     		bx	lr
+  67              	.L3:
+  68              		.align	2
+  69              	.L2:
+  70 0024 00000000 		.word	leftMotDir
+  71 0028 00040048 		.word	1207960576
+  72 002c 00000000 		.word	rightMotDir
+  73              		.cfi_endproc
+  74              	.LFE123:
+  76              		.section	.text.gpio_digitalWrite,"ax",%progbits
+  77              		.align	2
+  78              		.global	gpio_digitalWrite
+  79              		.thumb
+  80              		.thumb_func
+  82              	gpio_digitalWrite:
+  83              	.LFB124:
+  10:Src/peripherals/gpio.c **** 
+  11:Src/peripherals/gpio.c **** void gpio_digitalWrite(Pin* pin, GPIO_PinState pinState) {
+  84              		.loc 1 11 0
+  85              		.cfi_startproc
+  86              		@ args = 0, pretend = 0, frame = 8
+  87              		@ frame_needed = 1, uses_anonymous_args = 0
+  88 0000 80B5     		push	{r7, lr}
+  89              	.LCFI4:
+  90              		.cfi_def_cfa_offset 8
+  91              		.cfi_offset 7, -8
+  92              		.cfi_offset 14, -4
+  93 0002 82B0     		sub	sp, sp, #8
+  94              	.LCFI5:
+  95              		.cfi_def_cfa_offset 16
+  96 0004 00AF     		add	r7, sp, #0
+  97              	.LCFI6:
+  98              		.cfi_def_cfa_register 7
+  99 0006 7860     		str	r0, [r7, #4]
+ 100 0008 0B46     		mov	r3, r1
+ 101 000a FB70     		strb	r3, [r7, #3]
+  12:Src/peripherals/gpio.c ****     HAL_GPIO_WritePin(pin->port, pin->pinNumber, pinState);
+ 102              		.loc 1 12 0
+ 103 000c 7B68     		ldr	r3, [r7, #4]
+ 104 000e 1968     		ldr	r1, [r3]
+ 105 0010 7B68     		ldr	r3, [r7, #4]
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s 			page 3
+
+
+ 106 0012 9A88     		ldrh	r2, [r3, #4]
+ 107 0014 FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 108 0016 0846     		mov	r0, r1
+ 109 0018 1146     		mov	r1, r2
+ 110 001a 1A46     		mov	r2, r3
+ 111 001c FFF7FEFF 		bl	HAL_GPIO_WritePin
+  13:Src/peripherals/gpio.c **** }
+ 112              		.loc 1 13 0
+ 113 0020 0837     		adds	r7, r7, #8
+ 114              	.LCFI7:
+ 115              		.cfi_def_cfa_offset 8
+ 116 0022 BD46     		mov	sp, r7
+ 117              	.LCFI8:
+ 118              		.cfi_def_cfa_register 13
+ 119              		@ sp needed
+ 120 0024 80BD     		pop	{r7, pc}
+ 121              		.cfi_endproc
+ 122              	.LFE124:
+ 124              		.comm	leftMotDir,8,4
+ 125              		.comm	rightMotDir,8,4
+ 126 0026 00BF     		.text
+ 127              	.Letext0:
+ 128              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 129              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 130              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 131              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h"
+ 132              		.file 6 "Inc/peripherals/gpio.h"
+ 133              		.file 7 "Drivers/CMSIS/Include/core_cm4.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 gpio.c
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s:21     .text.gpio_init:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s:26     .text.gpio_init:0000000000000000 gpio_init
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s:70     .text.gpio_init:0000000000000024 $d
+                            *COM*:0000000000000008 leftMotDir
+                            *COM*:0000000000000008 rightMotDir
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s:77     .text.gpio_digitalWrite:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccVmbrKU.s:82     .text.gpio_digitalWrite:0000000000000000 gpio_digitalWrite
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin

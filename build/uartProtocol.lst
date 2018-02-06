@@ -1,0 +1,173 @@
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m4
+   3              		.eabi_attribute 27, 1
+   4              		.eabi_attribute 28, 1
+   5              		.fpu fpv4-sp-d16
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 6
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.thumb
+  16              		.file	"uartProtocol.c"
+  17              		.text
+  18              	.Ltext0:
+  19              		.cfi_sections	.debug_frame
+  20              		.comm	uart,4,4
+  21              		.comm	uart_rx_index,1,1
+  22              		.comm	uart_rx_buf,1,4
+  23              		.section	.rodata
+  24              		.align	2
+  25              	.LC0:
+  26 0000 3A00     		.ascii	":\000"
+  27 0002 0000     		.align	2
+  28              	.LC1:
+  29 0004 656C206D 		.ascii	"el moumouxe %i\012\000"
+  29      6F756D6F 
+  29      75786520 
+  29      25690A00 
+  30              		.section	.text.uartProtocol_handleMessage,"ax",%progbits
+  31              		.align	2
+  32              		.global	uartProtocol_handleMessage
+  33              		.thumb
+  34              		.thumb_func
+  36              	uartProtocol_handleMessage:
+  37              	.LFB123:
+  38              		.file 1 "Src/communication/uartProtocol.c"
+   1:Src/communication/uartProtocol.c **** #include "communication/uartProtocol.h"
+   2:Src/communication/uartProtocol.c **** 
+   3:Src/communication/uartProtocol.c **** void uartProtocol_handleMessage() {
+  39              		.loc 1 3 0
+  40              		.cfi_startproc
+  41              		@ args = 0, pretend = 0, frame = 40
+  42              		@ frame_needed = 1, uses_anonymous_args = 0
+  43 0000 B0B5     		push	{r4, r5, r7, lr}
+  44              	.LCFI0:
+  45              		.cfi_def_cfa_offset 16
+  46              		.cfi_offset 4, -16
+  47              		.cfi_offset 5, -12
+  48              		.cfi_offset 7, -8
+  49              		.cfi_offset 14, -4
+  50 0002 8AB0     		sub	sp, sp, #40
+  51              	.LCFI1:
+  52              		.cfi_def_cfa_offset 56
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s 			page 2
+
+
+  53 0004 00AF     		add	r7, sp, #0
+  54              	.LCFI2:
+  55              		.cfi_def_cfa_register 7
+   4:Src/communication/uartProtocol.c ****     if (uart_rx_cplt) {
+  56              		.loc 1 4 0
+  57 0006 134B     		ldr	r3, .L3
+  58 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  59 000a 002B     		cmp	r3, #0
+  60 000c 1ED0     		beq	.L1
+  61              	.LBB2:
+   5:Src/communication/uartProtocol.c ****         uart_rx_cplt = 0;
+  62              		.loc 1 5 0
+  63 000e 114B     		ldr	r3, .L3
+  64 0010 0022     		movs	r2, #0
+  65 0012 1A70     		strb	r2, [r3]
+   6:Src/communication/uartProtocol.c **** 
+   7:Src/communication/uartProtocol.c ****         char buffer[UART_MAX_LEN];
+   8:Src/communication/uartProtocol.c ****         memcpy(buffer, uart_rx_data, UART_MAX_LEN);
+  66              		.loc 1 8 0
+  67 0014 104B     		ldr	r3, .L3+4
+  68 0016 3C46     		mov	r4, r7
+  69 0018 1D46     		mov	r5, r3
+  70 001a 2868     		ldr	r0, [r5]	@ unaligned
+  71 001c 6968     		ldr	r1, [r5, #4]	@ unaligned
+  72 001e AA68     		ldr	r2, [r5, #8]	@ unaligned
+  73 0020 EB68     		ldr	r3, [r5, #12]	@ unaligned
+  74 0022 0FC4     		stmia	r4!, {r0, r1, r2, r3}
+  75 0024 2869     		ldr	r0, [r5, #16]	@ unaligned
+  76 0026 6969     		ldr	r1, [r5, #20]	@ unaligned
+  77 0028 AA69     		ldr	r2, [r5, #24]	@ unaligned
+  78 002a 07C4     		stmia	r4!, {r0, r1, r2}
+  79 002c AB8B     		ldrh	r3, [r5, #28]	@ unaligned
+  80 002e 2380     		strh	r3, [r4]	@ unaligned
+   9:Src/communication/uartProtocol.c **** 
+  10:Src/communication/uartProtocol.c ****         char* args = strtok(buffer, ":");
+  81              		.loc 1 10 0
+  82 0030 3B46     		mov	r3, r7
+  83 0032 1846     		mov	r0, r3
+  84 0034 0949     		ldr	r1, .L3+8
+  85 0036 FFF7FEFF 		bl	strtok
+  86 003a 7862     		str	r0, [r7, #36]
+  11:Src/communication/uartProtocol.c ****         int commandId = atoi(args);
+  87              		.loc 1 11 0
+  88 003c 786A     		ldr	r0, [r7, #36]
+  89 003e FFF7FEFF 		bl	atoi
+  90 0042 3862     		str	r0, [r7, #32]
+  12:Src/communication/uartProtocol.c **** 
+  13:Src/communication/uartProtocol.c ****         switch (commandId) {
+  14:Src/communication/uartProtocol.c ****             default:
+  15:Src/communication/uartProtocol.c ****                 printf("el moumouxe %i\n", commandId);
+  91              		.loc 1 15 0
+  92 0044 0648     		ldr	r0, .L3+12
+  93 0046 396A     		ldr	r1, [r7, #32]
+  94 0048 FFF7FEFF 		bl	printf
+  95              	.L1:
+  96              	.LBE2:
+  16:Src/communication/uartProtocol.c ****         }
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s 			page 3
+
+
+  17:Src/communication/uartProtocol.c ****     }
+  18:Src/communication/uartProtocol.c **** }
+  97              		.loc 1 18 0
+  98 004c 2837     		adds	r7, r7, #40
+  99              	.LCFI3:
+ 100              		.cfi_def_cfa_offset 16
+ 101 004e BD46     		mov	sp, r7
+ 102              	.LCFI4:
+ 103              		.cfi_def_cfa_register 13
+ 104              		@ sp needed
+ 105 0050 B0BD     		pop	{r4, r5, r7, pc}
+ 106              	.L4:
+ 107 0052 00BF     		.align	2
+ 108              	.L3:
+ 109 0054 00000000 		.word	uart_rx_cplt
+ 110 0058 00000000 		.word	uart_rx_data
+ 111 005c 00000000 		.word	.LC0
+ 112 0060 04000000 		.word	.LC1
+ 113              		.cfi_endproc
+ 114              	.LFE123:
+ 116              		.text
+ 117              	.Letext0:
+ 118              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 119              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 120              		.file 4 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303x8.h"
+ 121              		.file 5 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 122              		.file 6 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 123              		.file 7 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 124              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 125              		.file 9 "Inc/peripherals/uart.h"
+ARM GAS  /var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uartProtocol.c
+                            *COM*:0000000000000004 uart
+                            *COM*:0000000000000001 uart_rx_index
+                            *COM*:0000000000000001 uart_rx_buf
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s:24     .rodata:0000000000000000 $d
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s:31     .text.uartProtocol_handleMessage:0000000000000000 $t
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s:36     .text.uartProtocol_handleMessage:0000000000000000 uartProtocol_handleMessage
+/var/folders/0z/_3zh0q697778kwks4bv8s9bh0000gn/T//ccxqbZ3E.s:109    .text.uartProtocol_handleMessage:0000000000000054 $d
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+strtok
+atoi
+printf
+uart_rx_cplt
+uart_rx_data
